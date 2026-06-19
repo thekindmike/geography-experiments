@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初高中地理实验教学平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌏</text></svg>">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <div class="logo" onclick="showPage('home')">
+                <span class="logo-icon">🌏</span>
+                <span class="logo-text">地理实验教学平台</span>
+            </div>
+            <nav class="nav" id="mainNav">
+                <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">首页</a>
+                <a href="#" class="nav-link" data-page="junior" onclick="showPage('junior')">初中实验</a>
+                <a href="#" class="nav-link" data-page="senior" onclick="showPage('senior')">高中实验</a>
+                <a href="#" class="nav-link" data-page="interactive" onclick="showPage('interactive')">互动实验</a>
+                <a href="#" class="nav-link" data-page="resources" onclick="showPage('resources')">教学资源</a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="toggleSearch()" title="搜索实验">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+                <button class="btn-icon mobile-menu-btn" onclick="toggleMobileMenu()" title="菜单">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+            </div>
+        </div>
+        <!-- 搜索栏 -->
+        <div class="search-bar" id="searchBar">
+            <div class="search-inner">
+                <input type="text" id="searchInput" placeholder="搜索实验名称、关键词..." oninput="handleSearch(this.value)">
+                <button class="btn-close" onclick="toggleSearch()">✕</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" onclick="showPage('home'); toggleMobileMenu()">首页</a>
+        <a href="#" onclick="showPage('junior'); toggleMobileMenu()">初中实验</a>
+        <a href="#" onclick="showPage('senior'); toggleMobileMenu()">高中实验</a>
+        <a href="#" onclick="showPage('interactive'); toggleMobileMenu()">互动实验</a>
+        <a href="#" onclick="showPage('resources'); toggleMobileMenu()">教学资源</a>
+    </div>
+
+    <!-- 主内容区 -->
+    <main class="main" id="mainContent">
+        <!-- ========== 首页 ========== -->
+        <section class="page page-home active" id="pageHome">
+            <!-- 英雄区 -->
+            <div class="hero">
+                <div class="hero-bg">
+                    <div class="hero-pattern"></div>
+                </div>
+                <div class="hero-content">
+                    <h1 class="hero-title">初高中地理实验教学平台</h1>
+                    <p class="hero-subtitle">集初中、高中地理实验于一体的数字化教学平台，助力教师演示教学，引导学生动手实践</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-num" id="statJunior">0</span>
+                            <span class="stat-label">初中实验</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num" id="statSenior">0</span>
+                            <span class="stat-label">高中实验</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num" id="statInteractive">0</span>
+                            <span class="stat-label">互动实验</span>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" onclick="showPage('junior')">开始学习初中实验</button>
+                        <button class="btn btn-outline btn-lg" onclick="showPage('senior')">开始学习高中实验</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 特色功能 -->
+            <div class="features">
+                <div class="container">
+                    <h2 class="section-title">平台特色</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📋</div>
+                            <h3>完整实验库</h3>
+                            <p>涵盖初高中地理课程标准要求的所有实验，包括演示实验和分组实验，按年级和主题分类清晰。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🎮</div>
+                            <h3>互动模拟</h3>
+                            <p>精选实验配备互动模拟功能，学生可在浏览器中直接操作，观察实验现象，加深理解。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">👨🏫</div>
+                            <h3>教师演示模式</h3>
+                            <p>专为课堂教学设计的演示模式，大字体、高对比度，方便教师在课堂上投影展示。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📝</div>
+                            <h3>实验报告模板</h3>
+                            <p>提供标准化实验报告模板，学生可直接在线填写或打印，规范实验记录。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔍</div>
+                            <h3>智能搜索</h3>
+                            <p>支持按实验名称、知识点、年级、难度等多维度搜索，快速定位所需实验。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📱</div>
+                            <h3>多端适配</h3>
+                            <p>响应式设计，手机、平板、电脑均可流畅使用，随时随地进行地理实验学习。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推荐实验 -->
+            <div class="recommended">
+                <div class="container">
+                    <h2 class="section-title">推荐实验</h2>
+                    <div class="rec-grid" id="recGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 初中实验列表页 ========== -->
+        <section class="page page-junior" id="pageJunior">
+            <div class="page-header">
+                <div class="container">
+                    <h1>初中地理实验</h1>
+                    <p>适用于七年级、八年级，涵盖地球与地图、天气与气候、地形与地貌等主题</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="filter-bar" id="juniorFilter">
+                    <span class="filter-label">分类筛选：</span>
+                    <button class="filter-btn active" data-filter="all" onclick="filterExperiments('junior', 'all')">全部</button>
+                    <button class="filter-btn" data-filter="地球与地图" onclick="filterExperiments('junior', '地球与地图')">地球与地图</button>
+                    <button class="filter-btn" data-filter="地图与地形" onclick="filterExperiments('junior', '地图与地形')">地图与地形</button>
+                    <button class="filter-btn" data-filter="天气与气候" onclick="filterExperiments('junior', '天气与气候')">天气与气候</button>
+                    <button class="filter-btn" data-filter="地壳物质与地貌" onclick="filterExperiments('junior', '地壳物质与地貌')">地壳物质与地貌</button>
+                    <button class="filter-btn" data-filter="自然环境与人类活动" onclick="filterExperiments('junior', '自然环境与人类活动')">自然环境与人类活动</button>
+                </div>
+                <div class="experiments-grid" id="juniorGrid"></div>
+            </div>
+        </section>
+
+        <!-- ========== 高中实验列表页 ========== -->
+        <section class="page page-senior" id="pageSenior">
+            <div class="page-header">
+                <div class="container">
+                    <h1>高中地理实验</h1>
+                    <p>适用于高中必修及选择性必修，涵盖自然地理、人文地理、区域可持续发展等主题</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="filter-bar" id="seniorFilter">
+                    <span class="filter-label">分类筛选：</span>
+                    <button class="filter-btn active" data-filter="all" onclick="filterExperiments('senior', 'all')">全部</button>
+                    <button class="filter-btn" data-filter="自然地理·大气" onclick="filterExperiments('senior', '自然地理·大气')">自然地理·大气</button>
+                    <button class="filter-btn" data-filter="自然地理·水圈" onclick="filterExperiments('senior', '自然地理·水圈')">自然地理·水圈</button>
+                    <button class="filter-btn" data-filter="自然地理·地球运动" onclick="filterExperiments('senior', '自然地理·地球运动')">自然地理·地球运动</button>
+                    <button class="filter-btn" data-filter="人文地理·人口" onclick="filterExperiments('senior', '人文地理·人口')">人文地理·人口</button>
+                    <button class="filter-btn" data-filter="人文地理·城市" onclick="filterExperiments('senior', '人文地理·城市')">人文地理·城市</button>
+                    <button class="filter-btn" data-filter="人文地理·产业" onclick="filterExperiments('senior', '人文地理·产业')">人文地理·产业</button>
+                </div>
+                <div class="experiments-grid" id="seniorGrid"></div>
+            </div>
+        </section>
+
+        <!-- ========== 实验详情页 ========== -->
+        <section class="page page-detail" id="pageDetail">
+            <div class="detail-container" id="detailContainer"></div>
+        </section>
+
+        <!-- ========== 互动实验页 ========== -->
+        <section class="page page-interactive" id="pageInteractive">
+            <div class="page-header">
+                <div class="container">
+                    <h1>互动实验</h1>
+                    <p>在浏览器中直接操作，观察地理实验现象，加深理解</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="interactive-grid" id="interactiveGrid"></div>
+            </div>
+        </section>
+
+        <!-- ========== 互动实验模拟器 ========== -->
+        <section class="page page-simulator" id="pageSimulator">
+            <div class="simulator-container" id="simulatorContainer"></div>
+        </section>
+
+        <!-- ========== 教学资源页 ========== -->
+        <section class="page page-resources" id="pageResources">
+            <div class="page-header">
+                <div class="container">
+                    <h1>教学资源</h1>
+                    <p>实验报告模板、教学PPT、实验安全指南等资料下载</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="resources-grid" id="resourcesGrid"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 教师演示模式浮窗 -->
+    <div class="demo-mode-bar" id="demoModeBar">
+        <span>📽️ 教师演示模式</span>
+        <button onclick="exitDemoMode()">退出演示</button>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>地理实验教学平台</h3>
+                    <p>专为初高中地理教师和学生打造的数字化实验教学平台，让地理实验更高效、更有趣。</p>
+                </div>
+                <div class="footer-col">
+                    <h3>快速链接</h3>
+                    <a href="#" onclick="showPage('home')">首页</a>
+                    <a href="#" onclick="showPage('junior')">初中实验</a>
+                    <a href="#" onclick="showPage('senior')">高中实验</a>
+                    <a href="#" onclick="showPage('interactive')">互动实验</a>
+                </div>
+                <div class="footer-col">
+                    <h3>实验分类</h3>
+                    <a href="#" onclick="filterExperiments('junior', '地球与地图')">地球与地图</a>
+                    <a href="#" onclick="filterExperiments('junior', '天气与气候')">天气与气候</a>
+                    <a href="#" onclick="filterExperiments('senior', '自然地理·大气')">大气实验</a>
+                    <a href="#" onclick="filterExperiments('senior', '人文地理·城市')">人文地理实验</a>
+                </div>
+                <div class="footer-col">
+                    <h3>关于</h3>
+                    <p>本平台适用于初高中地理课程标准，由一线地理教师参与内容审核。</p>
+                    <p>版本：v1.0 | 更新日期：2026年6月</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 地理实验教学平台 - 助力地理实验教学</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <script src="js/experiments-data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/simulators-missing.js"></script>
+</body>
+</html>
