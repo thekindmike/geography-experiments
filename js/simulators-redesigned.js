@@ -104,11 +104,13 @@
         return d;
     }
 
-    // 创建结论框
+    // 创建结论框（默认隐藏，点击按钮后显示）
     function conclusionBox(text) {
         var d = document.createElement('div');
         d.style.cssText = 'background:#ecfdf5;border:1px solid #86efac;border-radius:8px;padding:14px 18px;margin:8px 0;font-size:13px;line-height:1.8;color:#166534;';
-        d.innerHTML = '<span style="font-weight:bold;font-size:14px;">💡 实验结论：</span><br>' + text;
+        var contentId = 'conclusionContent_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        d.innerHTML = '<div id="' + contentId + '" style="display:none;"><span style="font-weight:bold;font-size:14px;">💡 实验结论：</span><br>' + text + '</div>' +
+            '<button class="btn btn-sm" style="margin-top:8px;background:#16a34a;color:#fff;border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-size:13px;" onclick="document.getElementById(\'' + contentId + '\').style.display=\'block\';this.style.display=\'none\';">🔓 查看实验结论</button>';
         return d;
     }
 
