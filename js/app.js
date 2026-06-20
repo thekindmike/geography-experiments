@@ -475,3 +475,163 @@ window.resetThermal = function() {
     if (btn) btn.textContent = '▶️ 开始模拟';
 };
 
+// ==================== 教学资源页面 ====================
+function renderResources() {
+    const grid = document.getElementById('resourcesGrid');
+    if (!grid) return;
+
+    const resources = [
+        // === 模板类 ===
+        {
+            icon: '📝',
+            title: '实验报告模板',
+            desc: '通用地理实验报告模板，包含实验目的、材料、步骤、现象观察、结论分析等完整结构',
+            tags: ['Word', '可编辑'],
+            color: '#3b82f6',
+            action: 'downloadTemplate',
+            detail: '适用于本平台所有18个实验。包含：\n• 实验基本信息区\n• 实验目的与假设\n• 实验步骤记录表\n• 数据/现象记录区\n• 结论与分析框\n• 思考与拓展题\n• 教师评语栏'
+        },
+        {
+            icon: '📊',
+            title: '数据记录表格',
+            desc: '各实验专用数据记录表（控制变量记录、观测数据、测量结果等）',
+            tags: ['Excel', '18套'],
+            color: '#10b981',
+            action: 'downloadDataSheet',
+            detail: '为每个实验量身定制：\n• 经纬网定位：坐标记录表\n• 地球自转：昼夜变化时间记录\n• 等高线绘制：高程点数据表\n• 气温分布：温度对比表\n• 降水分布：降水量统计表\n• 热力环流：气流方向记录\n• 太阳高度角：角度计算表\n• 人口金字塔：人口数据表'
+        },
+        // === 教学PPT类 ===
+        {
+            icon: '📽️',
+            title: '教学课件合集',
+            desc: '初中+高中全部实验的教学PPT，含动画演示、课堂互动环节设计',
+            tags: ['PPTX', '18套'],
+            color: '#8b5cf6',
+            action: 'viewPptList',
+            detail: '按课程标准设计的教学课件：\n• 七年级上册：地球与地图（6个实验）\n• 七年级下册：天气与气候（3个实验）\n• 高中必修一：自然地理基础（5个实验）\n• 高中必修二：人文地理（4个实验）\n每套PPT包含：导入情境→知识讲解→互动演示→学生操作→总结归纳→课后作业'
+        },
+        {
+            icon: '🎬',
+            title: '微课视频推荐',
+            desc: '精选国内外优质地理实验教学视频，涵盖所有实验主题',
+            tags: ['视频', '免费'],
+            color: '#ef4444',
+            action: 'viewVideoList',
+            detail: '精选视频资源：\n• 【B站】地理老师李永乐系列\n• 【国家中小学智慧教育平台】同步课程\n• 【TED-Ed】地球科学动画短片\n• 【PhET官方】模拟器使用教程\n• 【中国科普博览】地理实验演示\n每个视频附推荐理由和使用建议'
+        },
+        // === 安全指南类 ===
+        {
+            icon: '⚠️',
+            title: '实验安全指南',
+            desc: '地理实验室安全规范、器材使用注意事项、应急处理流程',
+            tags: ['PDF', '必读'],
+            color: '#f59e0b',
+            action: 'viewSafetyGuide',
+            detail: '安全规范内容：\n• 实验室基本守则（10条）\n• 常用器材安全使用（地球仪、温度计、烧杯等）\n• 化学试剂安全（如涉及）\n• 用电安全规范\n• 户外考察安全须知\n• 应急处理流程图（烫伤、割伤、火灾等）\n• 安全检查清单（课前/课中/课后）'
+        },
+        // === 器材清单类 ===
+        {
+            icon: '🧰',
+            title: '实验器材清单',
+            desc: '全套地理实验所需器材目录，含型号规格、采购渠道、替代方案',
+            tags: ['Excel', '完整版'],
+            color: '#06b6d4',
+            action: 'viewEquipmentList',
+            detail: '器材分类清单：\n【基础器材】地球仪、地图集、经纬网板、直尺、圆规、量角器\n【演示器材】三球仪（日地月运行仪）、等高线模型、地形沙盘\n【观测器材】温度计、湿度计、气压计、风向标、雨量筒\n【制作材料】橡皮泥、泡沫板、LED灯、导线、电池\n【数字化设备】投影仪、交互白板、平板电脑\n每项标注：建议数量、参考价格、替代方案、维护方法'
+        },
+        // === 课程标准类 ===
+        {
+            icon: '📚',
+            title: '课程标准对照表',
+            desc: '2022版新课标与本平台实验的一一对应关系，便于备课和教学评估',
+            tags: ['PDF', '新课标'],
+            color: '#ec4899',
+            action: 'viewStandardMap',
+            detail: '对照内容：\n• 初中地理核心素养：区域认知、综合思维、地理实践力、人地协调观\n• 高中地理必修1：宇宙中的地球、自然环境中的物质运动与能量交换\n• 高中地理必修2：产业布局、交通、环境与发展\n每个实验标注：对应课标条目、考查能力维度、学业质量水平'
+        },
+        // === 备考复习类 ===
+        {
+            icon: '🎯',
+            title: '考点速查手册',
+            desc: '初高中地理实验相关考点的快速复习资料，含典型例题和易错点',
+            tags: ['PDF', '中考/高考'],
+            color: '#14b8a6',
+            action: 'viewExamGuide',
+            detail: '考点整理：\n【初中重点】经纬度判读、昼夜长短计算、等高线判读、气温降水图表分析\n【高中重点】热力环流应用、太阳高度角计算、人口金字塔分析、区位因素评价\n每考点包含：核心公式/规律 → 典型例题（含解析）→ 易错警示 → 变式训练'
+        }
+    ];
+
+    grid.innerHTML = resources.map((r, i) => `
+        <div class="resource-card" style="animation-delay:${i * 0.08}s">
+            <div class="resource-card-icon" style="background:linear-gradient(135deg, ${r.color}22, ${r.color}11);border-left:4px solid ${r.color};">
+                <span style="font-size:36px;">${r.icon}</span>
+            </div>
+            <div class="resource-card-body">
+                <h3>${r.title}</h3>
+                <p>${r.desc}</p>
+                <div class="resource-tags">${r.tags.map(t => `<span class="resource-tag" style="background:${r.color}15;color:${r.color};border:1px solid ${r.color}33;">${t}</span>`).join('')}</div>
+            </div>
+            <div class="resource-card-footer">
+                <button class="btn btn-primary btn-sm" onclick="showResourceDetail('${r.action}', \`${r.detail.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`, '${r.title}')">查看详情</button>
+            </div>
+        </div>
+    `).join('');
+
+    // 注入资源页样式
+    if (!document.getElementById('resourcesPageStyle')) {
+        const style = document.createElement('style');
+        style.id = 'resourcesPageStyle';
+        style.textContent = `
+.resources-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:24px; padding:32px 0; }
+.resource-card { background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.06); overflow:hidden; transition:all .3s ease; animation:fadeInUp .5s ease forwards; opacity:0; }
+.resource-card:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(0,0,0,0.12); }
+.resource-card-icon { padding:24px; display:flex; align-items:center; justify-content:center; }
+.resource-card-body { padding:0 24px 20px; }
+.resource-card-body h3 { font-size:18px; font-weight:700; color:#1e293b; margin-bottom:8px; }
+.resource-card-body p { font-size:14px; color:#64748b; line-height:1.6; margin-bottom:12px; }
+.resource-tags { display:flex; gap:8px; flex-wrap:wrap; }
+.resource-tag { font-size:12px; padding:3px 10px; border-radius:20px; }
+.resource-card-footer { padding:16px 24px; border-top:1px solid #f1f5f9; text-align:right; }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+.resource-detail-modal { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:10000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease; }
+.resource-detail-content { background:#fff; border-radius:16px; max-width:600px;width:90%;max-height:80vh;overflow-y:auto;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.2); animation:slideUp .3s ease; }
+.resource-detail-content h2 { font-size:22px; margin-bottom:16px; color:#1e293b; }
+.resource-detail-content pre { background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;font-size:14px;line-height:1.8;color:#334155;white-space:pre-wrap;margin-top:12px; }
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+`;
+        document.head.appendChild(style);
+    }
+}
+
+// 显示资源详情弹窗
+window.showResourceDetail = function(action, detail, title) {
+    // 移除已有弹窗
+    const existing = document.getElementById('resourceDetailModal');
+    if (existing) existing.remove();
+
+    let bodyContent = '';
+    if (action === 'downloadTemplate') {
+        bodyContent = `
+            <p>以下为<strong>${title}</strong>的详细内容：</p>
+            <pre>${detail}</pre>
+            <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="alert('模板下载功能开发中，请稍后再试。\n\n提示：您可以在"软著申请"目录下找到相关文档模板。')">📥 下载 Word 版</button>
+                <button class="btn btn-outline" onclick="document.getElementById('resourceDetailModal').remove()">关闭</button>
+            </div>`;
+    } else if (action === 'downloadDataSheet') {
+        bodyContent = `<p>以下为<strong>${title}</strong>的详细内容：</p><pre>${detail}</pre><div style="margin-top:20px;display:flex;gap:12px;"><button class="btn btn-primary" onclick="alert('数据表格下载功能开发中。\\n\\n提示：每个实验的模拟器中都包含内置的数据记录功能，可直接在实验过程中填写。')">📥 下载 Excel 套件</button><button class="btn btn-outline" onclick="document.getElementById('resourceDetailModal').remove()">关闭</button></div>`;
+    } else if (action === 'viewSafetyGuide') {
+        bodyContent = `<p>以下为<strong>${title}</strong>的详细内容：</p><pre>${detail}</pre><div style="margin-top:20px;display:flex;gap:12px;"><button class="btn btn-primary" onclick="alert('安全指南下载功能开发中。')">📥 下载 PDF</button><button class="btn btn-outline" onclick="document.getElementById('resourceDetailModal').remove()">关闭</button></div>`;
+    } else {
+        bodyContent = `<p>以下为<strong>${title}</strong>的详细内容：</p><pre>${detail}</pre><div style="margin-top:20px;"><button class="btn btn-outline" onclick="document.getElementById('resourceDetailModal').remove()">关闭</button></div>`;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'resourceDetailModal';
+    modal.className = 'resource-detail-modal';
+    modal.innerHTML = `<div class="resource-detail-content"><h2>${action === 'downloadTemplate' ? '📝' : action === 'downloadDataSheet' ? '📊' : action === 'viewPptList' ? '📽️' : action === 'viewVideoList' ? '🎬' : action === 'viewSafetyGuide' ? '⚠️' : action === 'viewEquipmentList' ? '🧰' : action === 'viewStandardMap' ? '📚' : '🎯'} ${title}</h2>${bodyContent}</div>`;
+    modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+    document.body.appendChild(modal);
+};
+
