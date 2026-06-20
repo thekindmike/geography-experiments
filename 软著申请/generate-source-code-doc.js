@@ -84,7 +84,7 @@ function generateSourceCodeDoc() {
 
     // 生成文档内容
     let docContent = '';
-    docContent += 'AIAI地理实验教学平台 V1.0\n';
+    docContent += 'AI地理实验教学平台 V1.0\n';
     docContent += '计算机软件著作权登记源代码文档\n';
     docContent += '========================================\n\n';
 
@@ -96,7 +96,7 @@ function generateSourceCodeDoc() {
 
         // 添加页眉
         docContent += `第 ${page} 页 / 共 ${TOTAL_PAGES} 页\n`;
-        docContent += `软件名称：AIAI地理实验教学平台  V1.0\n`;
+        docContent += `软件名称：AI地理实验教学平台  V1.0\n`;
         docContent += '========================================\n';
 
         // 添加代码行（带行号）
