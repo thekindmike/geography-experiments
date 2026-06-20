@@ -357,26 +357,26 @@ function renderSimulator(id) {
 
     // 根据实验类型加载对应模拟器
     switch (id) {
-        // 初中地理实验
+        // 初中地理实验（j001-j010）
         case 'j001': initLatitudeSimulator(); break;
         case 'j002': initRotationSimulator(); break;
         case 'j003': initRevolutionSimulator(); break;
-        case 'j004': initContourSimulator(); break;
-        case 'j005': initMarineEffectSimulator(); break;
-        case 'j006': initGreenhouseEffectSimulator(); break;
-        case 'j007': initSlopeTemperatureSimulator(); break;
-        case 'j008': initContourModelSimulator(); break;
-        case 'j009': initThermalDiffSimulator(); break;
-        case 'j010': initRiverSimulator(); break;
-        // 高中地理实验
-        case 's001': initThermalSimulator(); break;
-        case 's002': initWaterCycleSimulator(); break;
-        case 's003': initPopulationSimulator(); break;
-        case 's004': initHeatIslandSimulator(); break;
-        case 's005': initGreenhouseSimulator(); break;
-        case 's006': initFloodingSimulator(); break;
-        case 's007': initLandformSimulator(); break;
-        case 's008': initUrbanSimulator(); break;
+        case 'j004': initJ004Simulator(); break;
+        case 'j005': initJ005Simulator(); break;
+        case 'j006': initJ006Simulator(); break;
+        case 'j007': initJ007Simulator(); break;
+        case 'j008': initJ008Simulator(); break;
+        case 'j009': initJ009Simulator(); break;
+        case 'j010': initJ010Simulator(); break;
+        // 高中地理实验（s001-s008）
+        case 's001': initS001Simulator(); break;
+        case 's002': initS002Simulator(); break;
+        case 's003': initS003Simulator(); break;
+        case 's004': initS004Simulator(); break;
+        case 's005': initS005Simulator(); break;
+        case 's006': initS006Simulator(); break;
+        case 's007': initS007Simulator(); break;
+        case 's008': initS008Simulator(); break;
         default:
             document.getElementById('simCanvas').innerHTML = `
                 <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--gray-600);">

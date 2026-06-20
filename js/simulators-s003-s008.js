@@ -1,104 +1,110 @@
 // ============================================================
-//  地理实验平台 - 高中实验（s003-s008）
-//  控制变量法升级版
+//  地理实验平台 - 高中实验 s003-s008 控制变量法升级版
 // ============================================================
 
 // ==================== s003 太阳高度角测量与正午太阳高度计算 ====================
 function initS003Simulator(){
   const C=document.getElementById('simCanvas'); if(!C)return;
-  C.innerHTML=''; C.style.background='#fef9c3';
+  C.innerHTML=''; C.style.background='#fefce8';
   C.innerHTML=`
     <div class="exp-container">
       <div class="exp-header">
-        <h3 style="color:#a16207;margin:0;">☀️ 太阳高度角测量与正午太阳高度计算（控制变量法）</h3>
+        <h3 style="color:#d97706;margin:0;">☀️ 太阳高度角测量实验（控制变量法）</h3>
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：观测地点（厦门 φ=24.5°N）← 不变 &nbsp;|&nbsp;
-        自变量：测量日期（太阳直射点δ）← 可调节 &nbsp;|&nbsp;
-        因变量：正午太阳高度角 H ← 观察结果
+        控制变量：杆高（1.5m）、测量地点（厦门24.5°N） ← 不变 &nbsp;|&nbsp;
+        自变量：日期（太阳直射点纬度δ） ← 可调节 &nbsp;|&nbsp;
+        因变量：正午太阳高度角H、杆影长度 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#a16207;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#854d0e;line-height:1.7;">
-            <li>观测地点（厦门）</li>
-            <li>当地纬度 φ=24.5°N</li>
-            <li>测量工具（标杆+卷尺）</li>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#a16207;line-height:1.7;">
+            <li>杆高 H = 1.5m（固定）</li>
+            <li>测量地点：厦门（24.5°N）</li>
+            <li>测量时刻：当地正午</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">测量日期（太阳直射点δ变化）</div>
+        <div style="background:#fefce8;border:1px solid #fbbf24;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
+          <div style="font-size:11px;color:#a16207;line-height:1.7;">
+            日期（即太阳直射点纬度δ）<br/>可选：春分/夏至/秋分/冬至
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">正午太阳高度角 H（°）、杆影长度（cm）</div>
+        <div style="background:#fefce8;border:1px solid #60a5fa;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
+          <div style="font-size:11px;color:#1e40af;line-height:1.7;">
+            正午太阳高度角H（°）<br/>杆影长度L（m）
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:380px;">
-          <svg width="100%" height="320" viewBox="0 0 500 320" style="background:#fef9c3;border-radius:8px;border:1px solid #fde047;">
-            <text x="250" y="20" text-anchor="middle" fill="#a16207" font-size="12" font-weight="700">太阳高度角示意图</text>
+          <svg width="100%" height="320" viewBox="0 0 500 320" style="background:#fffbeb;border-radius:8px;border:1px solid #fde68a;">
+            <text x="250" y="20" text-anchor="middle" fill="#92400e" font-size="12" font-weight="700">正午太阳高度角测量原理示意图</text>
             <!-- 地面 -->
-            <line x1="50" y1="280" x2="450" y2="280" stroke="#92400e" stroke-width="2"/>
-            <text x="250" y="300" text-anchor="middle" fill="#92400e" font-size="9">地面（水平面）</text>
+            <line x1="50" y1="280" x2="450" y2="280" stroke="#a16207" stroke-width="2"/>
+            <text x="455" y="284" fill="#a16207" font-size="9">地面</text>
             <!-- 标杆 -->
-            <line x1="200" y1="280" x2="200" y2="180" stroke="#854d0e" stroke-width="4"/>
-            <text x="190" y="230" fill="#854d0e" font-size="8">标杆 H=100cm</text>
+            <line x1="200" y1="280" x2="200" y2="160" stroke="#92400e" stroke-width="3"/>
+            <circle cx="200" cy="160" r="4" fill="#92400e"/>
+            <text x="185" y="155" fill="#92400e" font-size="9" font-weight="700">标杆 H=1.5m</text>
             <!-- 太阳光线 -->
-            <line x1="450" y1="80" x2="200" y2="280" stroke="#eab308" stroke-width="2" stroke-dasharray="4,2"/>
-            <circle cx="460" cy="70" r="12" fill="#fef08a" stroke="#eab308" stroke-width="1.5"/>
-            <text x="460" y="74" text-anchor="middle" fill="#a16207" font-size="9" font-weight="700">☀️</text>
-            <!-- 太阳高度角 -->
-            <path d="M 230 280 A 30 30 0 0 0 250 260" fill="none" stroke="#dc2626" stroke-width="1.5"/>
-            <text x="245" y="255" fill="#dc2626" font-size="8" font-weight="700">h</text>
+            <line id="sunRay" x1="200" y1="160" x2="350" y2="280" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowsun)"/>
+            <defs>
+              <marker id="arrowsun" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b"/>
+              </marker>
+            </defs>
             <!-- 杆影 -->
-            <line x1="200" y1="280" x2="280" y2="280" stroke="#6b7280" stroke-width="2" stroke-dasharray="3,2"/>
-            <text x="240" y="270" fill="#6b7280" font-size="8">杆影 L</text>
-            <text x="250" y="150" text-anchor="middle" fill="#a16207" font-size="10">💡 公式：tan(h) = H / L</text>
-            <text x="250" y="170" text-anchor="middle" fill="#a16207" font-size="9">H（太阳高度角）= 90° - |φ-δ|</text>
+            <line id="shadowLine" x1="200" y1="280" x2="350" y2="280" stroke="#6b7280" stroke-width="2" stroke-dasharray="4,2"/>
+            <text x="355" y="276" fill="#6b7280" font-size="9">杆影 L</text>
+            <!-- 角度标注 -->
+            <path d="M 230 280 A 30 30 0 0 0 214 265" fill="none" stroke="#dc2626" stroke-width="1.5"/>
+            <text x="236" y="262" fill="#dc2626" font-size="9">H = ?°</text>
+            <text x="14" y="290" fill="#92400e" font-size="9" id="formulaText">公式：H = 90° - |φ-δ|</text>
+            <text x="14" y="305" fill="#1d4ed" font-size="9" id="resultText">厦门夏至：H ≈ 89° | 杆影极短</text>
           </svg>
           <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="sim-btn" style="background:#fef9c3;color:#a16207;" onclick="s003Set('chunfen')">🌓 春分</button>
-            <button class="sim-btn" style="background:#fef9c3;color:#a16207;" onclick="s003Set('xiatian')">☀️ 夏至</button>
-            <button class="sim-btn" style="background:#fef9c3;color:#a16207;" onclick="s003Set('qiufen')">🍂 秋分</button>
-            <button class="sim-btn" style="background:#fef9c3;color:#a16207;" onclick="s003Set('dongzhi')">❄️ 冬至</button>
-            <button class="sim-btn sim-btn-primary" onclick="s003Calc()">📊 计算</button>
+            <button class="sim-btn" style="background:#fefce8;color:#d97706;border:1px solid #fde68a;" onclick="s003Set('spring')">🌸 春分</button>
+            <button class="sim-btn" style="background:#fefce8;color:#d97706;border:1px solid #fde68a;" onclick="s003Set('summer')">☀️ 夏至</button>
+            <button class="sim-btn" style="background:#fefce8;color:#d97706;border:1px solid #fde68a;" onclick="s003Set('autumn')">🍂 秋分</button>
+            <button class="sim-btn" style="background:#fefce8;color:#d97706;border:1px solid #fde68a;" onclick="s003Set('winter')">❄️ 冬至</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 调节自变量（日期/太阳直射点）</h4>
-            <div style="margin-bottom:12px;">
-              <label style="font-size:12px;color:#475569;display:block;margin-bottom:4px;">
-                日期选择：<span id="s003Date">春分（3月21日）</span>
-              </label>
-              <input type="range" id="s003Slider" min="0" max="3" value="0" step="1"
-                style="width:100%;accent-color:#eab308;" oninput="s003SliderUpdate()"/>
-              <div style="display:flex;justify-content:space-between;font-size:9px;color:#94a3b8;margin-top:1px;">
-                <span>春分</span><span>夏至</span><span>秋分</span><span>冬至</span>
-              </div>
-            </div>
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px;color:#475569;line-height:1.7;">
-              📖 <strong>计算公式</strong><br/>
-              H = 90° - |φ - δ|<br/>
-              厦门 φ = 24.5°N<br/>
-              δ（春分/秋分）= 0°<br/>
-              δ（夏至）= 23.5°N<br/>
-              δ（冬至）= 23.5°S
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 选择日期（自变量）</h4>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sim-btn" style="background:#fffbeb;color:#92400e;border:1px solid #fde68a;text-align:left;padding:8px 10px;" onclick="s003Set('spring')">
+                <div style="font-weight:700;font-size:12px;">🌸 春分（3月21日）</div>
+                <div style="font-size:10px;color:#a16207;">δ=0° | H=65.5° | 杆影中等</div>
+              </button>
+              <button class="sim-btn" style="background:#fffbeb;color:#92400e;border:1px solid #fbbf24;text-align:left;padding:8px 10px;" onclick="s003Set('summer')">
+                <div style="font-weight:700;font-size:12px;">☀️ 夏至（6月22日）</div>
+                <div style="font-size:10px;color:#a16207;">δ=23.5°N | H≈89° | 杆影极短</div>
+              </button>
+              <button class="sim-btn" style="background:#fffbeb;color:#92400e;border:1px solid #fde68a;text-align:left;padding:8px 10px;" onclick="s003Set('autumn')">
+                <div style="font-weight:700;font-size:12px;">🍂 秋分（9月23日）</div>
+                <div style="font-size:10px;color:#a16207;">δ=0° | H=65.5° | 杆影中等</div>
+              </button>
+              <button class="sim-btn" style="background:#fffbeb;color:#92400e;border:1px solid #60a5fa;text-align:left;padding:8px 10px;" onclick="s003Set('winter')">
+                <div style="font-weight:700;font-size:12px;">❄️ 冬至（12月22日）</div>
+                <div style="font-size:10px;color:#a16207;">δ=23.5°S | H≈41° | 杆影很长</div>
+              </button>
             </div>
           </div>
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 测量结果记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 测量记录表</h4>
             <table class="data-table" id="s003TB">
-              <thead><tr><th>日期</th><th>δ（°）</th><th>H（°）</th><th>杆影长（cm）</th></tr></thead>
+              <thead><tr><th>节气</th><th>直射点δ</th><th>H（°）</th><th>杆影长L（m）</th></tr></thead>
               <tbody id="s003TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"计算"添加记录</td></tr>
+                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击季节按钮自动记录</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
-              <button class="sim-btn sim-btn-primary" onclick="s003Rec()">📝 记录数据</button>
+              <button class="sim-btn sim-btn-primary" onclick="s003Rec()">📝 记录当前</button>
               <button class="sim-btn sim-btn-success" onclick="s003Ana()">📊 分析规律</button>
               <button class="sim-btn" onclick="s003Clr()">🗑️ 清空</button>
             </div>
@@ -108,142 +114,148 @@ function initS003Simulator(){
       <div id="s003Con" class="conclusion-box"></div>
     </div>`;
   window._s003R=[];
-  s003SliderUpdate();
+  s003Set('summer');
 }
 
-const _s003Data=[
-  {date:'春分（3月21日）',delta:0,desc:'太阳直射赤道'},
-  {date:'夏至（6月22日）',delta:23.5,desc:'太阳直射北回归线'},
-  {date:'秋分（9月23日）',delta:0,desc:'太阳直射赤道'},
-  {date:'冬至（12月22日）',delta:-23.5,desc:'太阳直射南回归线'}
-];
-
-function s003SliderUpdate(){
-  const idx=parseInt(document.getElementById('s003Slider')?.value||'0');
-  const d=_s003Data[idx];
-  const dateEl=document.getElementById('s003Date');
-  if(dateEl) dateEl.textContent=d.date;
-  window._s003CurIdx=idx;
-}
+const _s003Data={
+  spring:{delta:0,h:65.5,shadow:0.68},
+  summer:{delta:23.5,h:89.0,shadow:0.03},
+  autumn:{delta:0,h:65.5,shadow:0.68},
+  winter:{delta:-23.5,h:41.0,shadow:1.71}
+};
 
 function s003Set(season){
-  const map={chunfen:0,xiatian:1,qiufen:2,dongzhi:3};
-  const idx=map[season]!==undefined?map[season]:0;
-  window._s003CurIdx=idx;
-  const slider=document.getElementById('s003Slider');
-  if(slider) slider.value=idx;
-  s003SliderUpdate();
-}
-
-function s003Calc(){
-  const idx=window._s003CurIdx!==undefined?window._s003CurIdx:0;
-  const d=_s003Data[idx];
-  const phi=24.5; // 厦门纬度
-  const delta=d.delta;
-  const H=90-Math.abs(phi-delta);
-  const L=100/Math.tan(H*Math.PI/180); // 标杆100cm
-  window._s003R=window._s003R||[];
-  window._s003R.push({date:d.date,delta:delta.toFixed(1),H:H.toFixed(1),L:L.toFixed(1)});
-  s003Rdr();
-}
-
-function s003Rdr(){
-  const tb=document.getElementById('s003TBb');
-  if(!tb)return;
-  if(!window._s003R||window._s003R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"计算"添加记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s003R.map(r=>`<tr><td>${r.date}</td><td>${r.delta}°</td><td>${r.H}°</td><td>${r.L} cm</td></tr>`).join('');
+  window._s003Cur=season;
+  const d=_s003Data[season]; if(!d)return;
+  const svg=document.getElementById('sunRay');
+  const shadow=document.getElementById('shadowLine');
+  // 根据H角调整太阳光线角度
+  const angle=90-d.h; // 光线与地面夹角 = H
+  const rad=angle*Math.PI/180;
+  const x2=200+120*Math.cos(rad);
+  const y2=280-120*Math.sin(rad);
+  if(svg)svg.setAttribute('x2',x2);
+  if(svg)svg.setAttribute('y2',y2);
+  // 杆影长度
+  const L=1.5/Math.tan(d.h*Math.PI/180);
+  const sx=200+L*100; // 比例放大
+  if(shadow){shadow.setAttribute('x2',Math.min(450,sx));}
+  const ft=document.getElementById('formulaText');
+  const rt=document.getElementById('resultText');
+  if(ft)ft.textContent=`公式：H = 90° - |φ-δ| = 90° - |24.5-${d.delta}| = ${d.h.toFixed(1)}°`;
+  if(rt)rt.textContent=`杆影长 L = ${L.toFixed(2)} m（H=${d.h.toFixed(1)}°）`;
 }
 
 function s003Rec(){
-  s003Calc();
+  window._s003R=window._s003R||[];
+  const s=window._s003Cur||'summer';
+  const d=_s003Data[s];
+  const names={spring:'春分',summer:'夏至',autumn:'秋分',winter:'冬至'};
+  const L=1.5/Math.tan(d.h*Math.PI/180);
+  window._s003R.push({season:names[s],delta:d.delta,h:d.h.toFixed(1),shadow:L.toFixed(2)});
+  s003Rdr();
 }
-
-function s003Ana(){
-  const el=document.getElementById('s003Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s003Rdr(){const tb=document.getElementById('s003TBb');if(!tb)return;if(window._s003R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击季节按钮自动记录</td></tr>';return;}tb.innerHTML=window._s003R.map(r=>`<tr><td>${r.season}</td><td>${r.delta}°</td><td>${r.h}</td><td>${r.shadow}</td></tr>`).join('');}
+function s003Ana(){const el=document.getElementById('s003Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>正午太阳高度角季节变化</strong>：夏至日厦门正午太阳高度角最大（约89°），冬至日最小（约43°），两者相差约46°。</p>
-    <p>2. <strong>杆影长度变化</strong>：太阳高度角越大，杆影越短。夏至日杆影最短，冬至日杆影最长。</p>
-    <p>3. <strong>实际应用</strong>：①建筑物采光设计——厦门楼间距只需≥楼高×1.1（冬至日太阳高度角最小，此时能采光则全年都能采光）；②太阳能板安装角度——应调整为与当地太阳高度角互补（厦门约24.5°倾角）。</p>
-    <p style="margin-top:8px;color:#a16207;">📌 本实验控制观测地点（厦门）和标杆高度不变，只改变测量日期（太阳直射点δ），观察正午太阳高度角的季节变化规律。</p>`;
-  }
-}
-
+    <p>1. <strong>正午太阳高度角计算公式</strong>：H = 90° - |φ - δ|，其中φ为当地纬度，δ为当日太阳直射点纬度。同半球取减号，异半球取加号。</p>
+    <p>2. <strong>季节变化规律</strong>：厦门（24.5°N）夏至日H最大（≈89°），杆影极短，可能出现"立竿无影"；冬至日H最小（≈41°），杆影最长。</p>
+    <p>3. <strong>纬度分布规律</strong>：正午太阳高度从太阳直射点向南北两侧递减。直射时H=90°（杆影长度为0）。</p>
+    <p>4. <strong>实际应用</strong>：①建筑物采光设计（楼间距≥H×cotH）；②太阳能板安装角度（倾角≈90°-H）；③气温分布解释（H越大，单位面积获得辐射越多）。</p>
+    <p style="margin-top:8px;color:#d97706;">📌 本实验控制杆高和测量地点不变，只改变日期（太阳直射点纬度），观察正午太阳高度角和杆影长度的变化规律。</p>`;}}
 function s003Clr(){window._s003R=[];s003Rdr();const el=document.getElementById('s003Con');if(el)el.style.display='none';}
+
 
 // ==================== s004 人口金字塔绘制与分析实验 ====================
 function initS004Simulator(){
   const C=document.getElementById('simCanvas'); if(!C)return;
-  C.innerHTML=''; C.style.background='#f3e8ff';
+  C.innerHTML=''; C.style.background='#f0fdf4';
   C.innerHTML=`
     <div class="exp-container">
       <div class="exp-header">
-        <h3 style="color:#7c3aed;margin:0;">👥 人口金字塔绘制与分析实验（控制变量法）</h3>
+        <h3 style="color:#16a34a;margin:0;">📊 人口金字塔绘制与分析实验（控制变量法）</h3>
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：年龄分组方法（0-4岁，5岁一组）← 不变 &nbsp;|&nbsp;
-        自变量：国家/地区发展阶段 ← 可调节 &nbsp;|&nbsp;
-        因变量：金字塔形状、人口老龄化程度 ← 观察结果
+        控制变量：横坐标比例（1%宽=10px）、年龄组距（5岁） ← 不变 &nbsp;|&nbsp;
+        自变量：国家/地区选择 ← 可调节 &nbsp;|&nbsp;
+        因变量：金字塔形状、人口老龄化指数 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div style="background:#f3e8ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#6d28d9;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#7c3aed;line-height:1.7;">
-            <li>年龄分组（5岁一组）</li>
-            <li>性别分组（男左女右）</li>
-            <li>绘图比例尺</li>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#166534;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#15803d;line-height:1.7;">
+            <li>年龄组距：5岁一组</li>
+            <li>横坐标比例固定</li>
+            <li>男女分色：蓝（男）/红（女）</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">国家/地区（不同发展阶段）</div>
+        <div style="background:#f0fdf4;border:1px solid #4ade80;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#166534;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
+          <div style="font-size:11px;color:#15803d;line-height:1.7;">
+            国家/地区选择<br/>（中国/日本/印度/尼日利亚）
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
+        <div style="background:#f0fdf4;border:1px solid #f59e0b;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">金字塔形状、老年人口比例（%）、少年儿童比例（%）</div>
+          <div style="font-size:11px;color:#92400e;line-height:1.7;">
+            金字塔形状类型<br/>少年儿童比重（%）<br/>老年人口比重（%）
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:380px;">
-          <svg width="100%" height="300" viewBox="0 0 500 300" style="background:#f3e8ff;border-radius:8px;border:1px solid #c4b5fd;">
-            <text x="250" y="20" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="700">人口金字塔示意图（以尼日利亚为例）</text>
-            <!-- 中线 -->
-            <line x1="250" y1="40" x2="250" y2="290" stroke="#6b7280" stroke-width="0.5"/>
-            <!-- 男性（左侧） -->
-            <rect x="210" y="50" width="40" height="15" fill="#818cf8" rx="2"/><text x="205" y="61" text-anchor="end" fill="#4c1d95" font-size="7">0-4岁 8.5%</text>
-            <rect x="180" y="70" width="70" height="15" fill="#818cf8" rx="2"/><text x="175" y="81" text-anchor="end" fill="#4c1d95" font-size="7">5-9岁 8.2%</text>
-            <rect x="160" y="90" width="90" height="15" fill="#818cf8" rx="2"/><text x="155" y="101" text-anchor="end" fill="#4c1d95" font-size="7">10-14岁 7.8%</text>
-            <rect x="170" y="110" width="80" height="15" fill="#818cf8" rx="2"/><text x="165" y="121" text-anchor="end" fill="#4c1d95" font-size="7">15-19岁 7.5%</text>
-            <rect x="200" y="130" width="50" height="15" fill="#818cf8" rx="2"/><text x="195" y="141" text-anchor="end" fill="#4c1d95" font-size="7">20-24岁 6.8%</text>
-            <rect x="220" y="150" width="30" height="15" fill="#818cf8" rx="2"/><text x="215" y="161" text-anchor="end" fill="#4c1d95" font-size="7">25-29岁 6.2%</text>
-            <rect x="235" y="170" width="15" height="15" fill="#818cf8" rx="2"/><text x="250" y="181" text-anchor="start" fill="#4c1d95" font-size="7">30-34岁 5.5%</text>
-            <!-- 女性（右侧） -->
-            <rect x="250" y="50" width="40" height="15" fill="#c084fc" rx="2"/><text x="295" y="61" fill="#6b21a8" font-size="7">0-4岁 8.3%</text>
-            <rect x="250" y="70" width="68" height="15" fill="#c084fc" rx="2"/><text x="322" y="81" fill="#6b21a8" font-size="7">5-9岁 8.0%</text>
-            <rect x="250" y="90" width="88" height="15" fill="#c084fc" rx="2"/><text x="342" y="101" fill="#6b21a8" font-size="7">10-14岁 7.6%</text>
-            <rect x="250" y="170" width="13" height="15" fill="#c084fc" rx="2"/><text x="268" y="181" fill="#6b21a8" font-size="7">30-34岁 5.3%</text>
-            <text x="250" y="290" text-anchor="middle" fill="#6d28d9" font-size="9">💡 尼日利亚：扩张型（底部宽、少年儿童比重大）</text>
+        <div style="flex:1;min-width:400px;">
+          <svg width="100%" height="360" viewBox="0 0 520 360" style="background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0;" id="s004Svg">
+            <text x="260" y="18" text-anchor="middle" fill="#166534" font-size="12" font-weight="700">人口金字塔（<tspan id="s004Country">中国2023</tspan>）</text>
+            <text x="130" y="34" text-anchor="middle" fill="#1d4ed" font-size="9">男性（%）</text>
+            <text x="390" y="34" text-anchor="middle" fill="#dc2626" font-size="9">女性（%）</text>
+            <!-- 年龄轴 -->
+            <text x="10" y="60" fill="#64748b" font-size="8">0-4岁</text>
+            <text x="10" y="100" fill="#64748b" font-size="8">15-19岁</text>
+            <text x="10" y="140" fill="#64748b" font-size="8">30-34岁</text>
+            <text x="10" y="180" fill="#64748b" font-size="8">45-49岁</text>
+            <text x="10" y="220" fill="#64748b" font-size="8">60-64岁</text>
+            <text x="10" y="260" fill="#64748b" font-size="8">75-79岁</text>
+            <text x="10" y="300" fill="#64748b" font-size="8">90+岁</text>
+            <!-- 金字塔条形将通过JS动态生成 -->
+            <g id="pyramidBars"></g>
+            <text x="260" y="345" text-anchor="middle" fill="#166534" font-size="9" id="s004Type">类型：稳定型（即将转入老年型）</text>
           </svg>
           <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="sim-btn" style="background:#f3e8ff;color:#6d28d9;" onclick="s004Select('尼日利亚')">📊 尼日利亚</button>
-            <button class="sim-btn" style="background:#f3e8ff;color:#6d28d9;" onclick="s004Select('中国')">📊 中国</button>
-            <button class="sim-btn" style="background:#f3e8ff;color:#6d28d9;" onclick="s004Select('日本')">📊 日本</button>
-            <button class="sim-btn sim-btn-primary" onclick="s004Rec()">📝 记录数据</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s004Set('china')">🇨🇳 中国</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s004Set('japan')">🇯🇵 日本</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s004Set('india')">🇮🇳 印度</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s004Set('nigeria')">🇳🇬 尼日利亚</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 人口金字塔观察记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 选择国家（自变量）</h4>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s004Set('china')">
+                <div style="font-weight:700;font-size:12px;">🇨🇳 中国（2023）</div>
+                <div style="font-size:10px;color:#15803d;">稳定型→老年型 | 少儿38% 老年14%</div>
+              </button>
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s004Set('japan')">
+                <div style="font-weight:700;font-size:12px;">🇯🇵 日本（2023）</div>
+                <div style="font-size:10px;color:#15803d;">老年型（收缩型）| 少儿12% 老年29%</div>
+              </button>
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s004Set('india')">
+                <div style="font-weight:700;font-size:12px;">🇮🇳 印度（2023）</div>
+                <div style="font-size:10px;color:#15803d;">扩张型（年轻型）| 少儿37% 老年6%</div>
+              </button>
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s004Set('nigeria')">
+                <div style="font-weight:700;font-size:12px;">🇳🇬 尼日利亚（2023）</div>
+                <div style="font-size:10px;color:#15803d;">典型扩张型 | 少儿43% 老年3%</div>
+              </button>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 人口数据分析表</h4>
             <table class="data-table" id="s004TB">
-              <thead><tr><th>国家/地区</th><th>金字塔类型</th><th>少年儿童（%）</th><th>老年人口（%）</th></tr></thead>
+              <thead><tr><th>国家</th><th>类型</th><th>少儿比重</th><th>老年比重</th></tr></thead>
               <tbody id="s004TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加观察记录</td></tr>
+                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加数据</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
@@ -252,62 +264,67 @@ function initS004Simulator(){
               <button class="sim-btn" onclick="s004Clr()">🗑️ 清空</button>
             </div>
           </div>
-          <div id="s004Info" style="padding:12px;background:#f3e8ff;border-radius:6px;font-size:12px;color:#6d28d9;line-height:1.7;">
-            选择国家/地区查看人口金字塔特征
-          </div>
         </div>
       </div>
       <div id="s004Con" class="conclusion-box"></div>
     </div>`;
   window._s004R=[];
+  // 默认绘制中国
+  s004Set('china');
 }
 
 const _s004Data={
-  '尼日利亚':{type:'扩张型（年轻型）',child:'43%',elder:'3%',desc:'底部极宽，出生率高，人口增长快'},
-  '中国':{type:'稳定型（成年型）',child:'17%',elder:'14%',desc:'底部开始收窄，人口老龄化加速'},
-  '日本':{type:'收缩型（老年型）',child:'12%',elder:'29%',desc:'底部很窄，超低生育率，人口负增长'}
+  china:{name:'中国2023',type:'稳定型→老年型',young:38,old:14,
+    bars:[{age:'0-4',m:7.2,f:6.8},{age:'15-19',m:7.0,f:6.5},{age:'30-34',m:8.5,f:8.2},{age:'45-49',m:7.8,f:7.6},{age:'60-64',m:5.2,f:5.5},{age:'75-79',m:2.1,f:2.5},{age:'90+',m:0.3,f:0.5}]},
+  japan:{name:'日本2023',type:'收缩型（老年型）',young:12,old:29,
+    bars:[{age:'0-4',m:3.0,f:2.8},{age:'15-19',m:3.2,f:3.0},{age:'30-34',m:4.5,f:4.3},{age:'45-49',m:6.8,f:6.5},{age:'60-64',m:7.2,f:7.8},{age:'75-79',m:5.5,f:6.2},{age:'90+',m:1.8,f:2.5}]},
+  india:{name:'印度2023',type:'扩张型（年轻型）',young:37,old:6,
+    bars:[{age:'0-4',m:9.5,f:9.0},{age:'15-19',m:9.2,f:8.8},{age:'30-34',m:8.0,f:7.8},{age:'45-49',m:5.5,f:5.3},{age:'60-64',m:3.2,f:3.5},{age:'75-79',m:1.2,f:1.5},{age:'90+',m:0.3,f:0.4}]},
+  nigeria:{name:'尼日利亚2023',type:'典型扩张型',young:43,old:3,
+    bars:[{age:'0-4',m:11.0,f:10.5},{age:'15-19',m:10.2,f:9.8},{age:'30-34',m:8.5,f:8.2},{age:'45-49',m:5.8,f:5.5},{age:'60-64',m:2.8,f:3.0},{age:'75-79',m:0.8,f:0.9},{age:'90+',m:0.1,f:0.1}]}
 };
 
-function s004Select(country){
+function s004Set(country){
   window._s004Cur=country;
-  const info=document.getElementById('s004Info');
-  const d=_s004Data[country];
-  if(info&&d) info.innerHTML=`<strong>${country}</strong><br/>金字塔类型：${d.type}<br/>少年儿童比例：${d.child}<br/>老年人口比例：${d.elder}<br/>说明：${d.desc}`;
+  const d=_s004Data[country]; if(!d)return;
+  const svg=document.getElementById('pyramidBars');
+  const ct=document.getElementById('s004Country');
+  const ty=document.getElementById('s004Type');
+  if(ct)ct.textContent=d.name;
+  if(ty)ty.textContent=`类型：${d.type} | 少儿${d.young}% 老年${d.old}%`;
+  if(!svg)return;
+  // 绘制金字塔条形
+  let html='';
+  const yPositions=[50,90,130,170,210,250,290];
+  d.bars.forEach((b,i)=>{
+    const y=yPositions[i];
+    const mw=b.m*4; // 放大系数
+    const fw=b.f*4;
+    // 男性条（左）
+    html+=`<rect x="${250-mw}" y="${y}" width="${mw}" height="28" fill="#3b82f6" opacity="0.8"/>`;
+    // 女性条（右）
+    html+=`<rect x="250" y="${y}" width="${fw}" height="28" fill="#ef4444" opacity="0.8"/>`;
+  });
+  svg.innerHTML=html;
 }
 
 function s004Rec(){
   window._s004R=window._s004R||[];
-  Object.keys(_s004Data).forEach(country=>{
-    const d=_s004Data[country];
-    window._s004R.push({country:country,type:d.type,child:d.child,elder:d.elder});
-  });
+  const c=window._s004Cur||'china';
+  const d=_s004Data[c];
+  window._s004R.push({country:d.name,type:d.type,young:d.young,old:d.old});
   s004Rdr();
 }
-
-function s004Rdr(){
-  const tb=document.getElementById('s004TBb');
-  if(!tb)return;
-  if(!window._s004R||window._s004R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加观察记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s004R.map(r=>`<tr><td>${r.country}</td><td>${r.type}</td><td>${r.child}</td><td>${r.elder}</td></tr>`).join('');
-}
-
-function s004Ana(){
-  const el=document.getElementById('s004Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s004Rdr(){const tb=document.getElementById('s004TBb');if(!tb)return;if(window._s004R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加数据</td></tr>';return;}tb.innerHTML=window._s004R.map(r (=>`<tr><td>${r.country}</td><td>${r.type}</td><td>${r.young}%</td><td>${r.old}%</td></tr>`).join('');}
+function s004Ana(){const el=document.getElementById('s004Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>人口金字塔类型</strong>：①扩张型（年轻型）——底部宽、顶部窄，少年儿童比重大，人口增长快（如尼日利亚）；②稳定型（成年型）——各年龄组比例相差不大，人口缓慢增长（如中国现阶段）；③收缩型（老年型）——底部窄、顶部宽，老年人口比重大，人口负增长（如日本）。</p>
-    <p>2. <strong>人口老龄化</strong>：65岁以上人口占比≥7%为老龄化社会，≥14%为深度老龄化。日本已达29%，中国已超过14%，进入深度老龄化阶段。</p>
-    <p>3. <strong>人口政策启示</strong>：人口老龄化会导致劳动力短缺、养老负担加重、经济增速放缓。中国放开三孩政策正是为了应对人口老龄化挑战。</p>
-    <p style="margin-top:8px;color:#7c3aed;">📌 本实验控制年龄分组方法和绘图标准不变，只改变国家/地区，观察不同发展阶段的人口金字塔形状差异。</p>`;
-  }
-}
-
+    <p>1. <strong>人口金字塔三种类型</strong>：①扩张型（年轻型）——底部宽、顶部窄，少年儿童比重大（>40%），人口快速增长；②稳定型（成年型）——各年龄组比例较均匀，人口缓慢增长；③收缩型（老年型）——底部窄、顶部宽，老年人口比重大（>14%），人口负增长风险。</p>
+    <p>2. <strong>中日印尼差异</strong>：尼日利亚为典型扩张型（少儿43%）；印度为扩张型（少儿37%）；中国为稳定型即将转入老年型（老年14%，超过联合国老龄化社会标准10%）；日本为典型收缩型（老年29%，严重老龄化）。</p>
+    <p>3. <strong>人口红利</strong>：劳动年龄人口（15-64岁）比重大的时期称为"人口红利期"，有利于经济增长。中国目前正逐渐走出人口红利期，须应对老龄化挑战。</p>
+    <p>4. <strong>政策启示</strong>：放开生育政策、延迟退休、健全养老保障体系、发展"银发经济"是应对老龄化的综合措施。</p>
+    <p style="margin-top:8px;color:#16a34a;">📌 本实验控制年龄组距和绘图比例不变，只改变国家/地区，比较人口年龄结构类型的差异。</p>`;}}
 function s004Clr(){window._s004R=[];s004Rdr();const el=document.getElementById('s004Con');if(el)el.style.display='none';}
+
 
 // ==================== s005 城市热岛效应模拟实验 ====================
 function initS005Simulator(){
@@ -320,65 +337,99 @@ function initS005Simulator(){
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：照射时间（10分钟）、光照强度 ← 不变 &nbsp;|&nbsp;
+        控制变量：照射强度（500W台灯）、照射时间（10min） ← 不变 &nbsp;|&nbsp;
         自变量：下垫面类型 ← 可调节 &nbsp;|&nbsp;
-        因变量：升温速度、最高温度 ← 观察结果
+        因变量：升温幅度、最高温度 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
         <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#dc2626;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#dc2626;line-height:1.7;">
-            <li>照射时间（10分钟）</li>
-            <li>光照强度（500W台灯）</li>
-            <li>温度计规格</li>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#ef4444;line-height:1.7;">
+            <li>照射强度：500W台灯</li>
+            <li>照射时间：10分钟</li>
+            <li>温度计型号一致</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">下垫面类型（草地/裸土/混凝土）</div>
+        <div style="background:#fef2f2;border:1px solid #f59e0b;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
+          <div style="font-size:11px;color:#92400e;line-height:1.7;">
+            下垫面类型<br/>（草地/裸土/水泥/水面）
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">升温速度（°C/min）、最高温度（°C）</div>
+        <div style="background:#fef2f2;border:1px solid #60a5fa;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
+          <div style="font-size:11px;color:#1e40af;line-height:1.7;">
+            升温幅度（°C）<br/>最高温度（°C）<br/>降温速度
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:380px;">
-          <svg width="100%" height="300" viewBox="0 0 500 300" style="background:#fef2f2;border-radius:8px;border:1px solid #fecaca;">
-            <text x="250" y="20" text-anchor="middle" fill="#dc2626" font-size="12" font-weight="700">不同下垫面升温曲线（模拟）</text>
+          <svg width="100%" height="320" viewBox="0 0 500 320" style="background:#fff7ed;border-radius:8px;border:1px solid #fed7aa;">
+            <text x="250" y="18" text-anchor="middle" fill="#ea580c" font-size="12" font-weight="700">不同下垫面温度变化曲线（模拟）</text>
             <!-- 坐标轴 -->
-            <line x1="50" y1="260" x2="450" y2="260" stroke="#6b7280" stroke-width="1"/>
-            <line x1="50" y1="260" x2="50" y2="40" stroke="#6b7280" stroke-width="1"/>
-            <text x="250" y="290" text-anchor="middle" fill="#64748b" font-size="8">时间（分钟）</text>
-            <text x="30" y="150" text-anchor="middle" fill="#64748b" font-size="8" transform="rotate(-90 30 150)">温度（°C）</text>
-            <!-- 草地升温曲线 -->
-            <polyline points="50,240 110,230 170,222 230,218 290,216 350,214 410,214" fill="none" stroke="#22c55e" stroke-width="2"/>
-            <circle cx="410" cy="214" r="3" fill="#22c55e"/><text x="418" y="218" fill="#16a34a" font-size="8">草地（最高32°C）</text>
-            <!-- 裸土升温曲线 -->
-            <polyline points="50,242 110,228 170,220 230,215 290,212 350,210 410,210" fill="none" stroke="#a16207" stroke-width="2"/>
-            <circle cx="410" cy="210" r="3" fill="#a16207"/><text x="418" y="214" fill="#854d0e" font-size="8">裸土（最高35°C）</text>
-            <!-- 混凝土升温曲线 -->
-            <polyline points="50,245 110,228 170,218 230,210 290,205 350,200 410,198" fill="none" stroke="#6b7280" stroke-width="2"/>
-            <circle cx="410" cy="198" r="3" fill="#6b7280"/><text x="418" y="202" fill="#374151" font-size="8">混凝土（最高45°C）</text>
-            <text x="250" y="280" text-anchor="middle" fill="#dc2626" font-size="9">💡 混凝土升温最快、温度最高 → 城市热岛效应</text>
+            <line x1="50" y1="290" x2="450" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="50" y1="290" x2="50" y2="50" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="30" y="170" fill="#64748b" font-size="8" transform="rotate(-90,30,170)">温度（°C）</text>
+            <text x="250" y="310" text-anchor="middle" fill="#64748b" font-size="8">时间（min）</text>
+            <!-- 刻度 -->
+            <text x="50" y="305" fill="#94a3b8" font-size="7">0</text>
+            <text x="150" y="305" fill="#94a3b8" font-size="7">2.5</text>
+            <text x="250" y="305" fill="#94a3b8" font-size="7">5</text>
+            <text x="350" y="305" fill="#94a3b8" font-size="7">7.5</text>
+            <text x="445" y="305" fill="#94a3b8" font-size="7">10</text>
+            <text x="45" y="290" fill="#94a3b8" font-size="7">25</text>
+            <text x="45" y="210" fill="#94a3b8" font-size="7">30</text>
+            <text x="45" y="130" fill="#94a3b8" font-size="7">35</text>
+            <text x="45" y="50" fill="#94a3b8" font-size="7">40</text>
+            <!-- 曲线：草地 -->
+            <polyline id="lineGrass" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
+            <!-- 曲线：裸土 -->
+            <polyline id="lineSoil" fill="none" stroke="#a16207" stroke-width="2" stroke-linejoin="round"/>
+            <!-- 曲线：水泥 -->
+            <polyline id="lineCement" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- 曲线：水面 -->
+            <polyline id="lineWater" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4,2"/>
+            <!-- 图例 -->
+            <rect x="360" y="55" width="14" height="10" fill="#22c55e" rx="2"/><text x="380" y="63" fill="#166534" font-size="8">草地</text>
+            <rect x="360" y="70" width="14" height="10" fill="#a16207" rx="2"/><text x="380" y="78" fill="#92400e" font-size="8">裸土</text>
+            <rect x="360" y="85" width="14" height="10" fill="#6b7280" rx="2"/><text x="380" y="93" fill="#374151" font-size="8">水泥</text>
+            <rect x="360" y="100" width="14" height="10" fill="#3b82f6" rx="2"/><text x="380" y="108" fill="#1d4ed" font-size="8">水面</text>
+            <text x="250" y="160" text-anchor="middle" fill="#dc2626" font-size="9" font-weight="700" id="s005MaxTemp">水泥最高温：38.5°C | 草地最高温：30.2°C</text>
           </svg>
           <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="sim-btn" style="background:#dcfce7;color:#16a34a;" onclick="s005Select('草地')">🌿 草地</button>
-            <button class="sim-btn" style="background:#fef9c3;color:#a16207;" onclick="s005Select('裸土')">🟤 裸土</button>
-            <button class="sim-btn" style="background:#f1f5f9;color:#374151;" onclick="s005Select('混凝土')">🏗️ 混凝土</button>
-            <button class="sim-btn sim-btn-primary" onclick="s005Rec()">📝 记录数据</button>
+            <button class="sim-btn sim-btn-primary" onclick="s005Draw()">📈 绘制温度曲线</button>
+            <button class="sim-btn" style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;" onclick="s005Reset()">🔄 重置</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
-          <div id="s005Info" style="padding:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#dc2626;line-height:1.7;">
-            选择下垫面类型查看升温特征
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 选择下垫面（自变量）</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;text-align:center;" onclick="s005Select('cement')">
+                <div style="font-weight:700;font-size:11px;">🏗️ 水泥地面</div>
+                <div style="font-size:9px;color:#15803d;">比热容小，升温快</div>
+              </button>
+              <button class="sim-btn" style="background:#fefce8;color:#92400e;border:1px solid #fde68a;text-align:center;" onclick="s005Select('soil')">
+                <div style="font-weight:700;font-size:11px;">🟤 裸土</div>
+                <div style="font-size:9px;color:#a16207;">升温较快，保温一般</div>
+              </button>
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;text-align:center;" onclick="s005Select('gras')">
+                <div style="font-weight:700;font-size:11px;">🌱 草地</div>
+                <div style="font-size:9px;color:#15803d;">蒸腾降温，升温慢</div>
+              </button>
+              <button class="sim-btn" style="background:#eff6ff;color:#1d4ed;border:1px solid #bfdbfe;text-align:center;" onclick="s005Select('water')">
+                <div style="font-weight:700;font-size:11px;">💧 水面</div>
+                <div style="font-size:9px;color:#2563eb;">比热容大，升温最慢</div>
+              </button>
+            </div>
           </div>
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 下垫面温度记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 温度观测记录表</h4>
             <table class="data-table" id="s005TB">
-              <thead><tr><th>下垫面</th><th>升温速度（°C/min）</th><th>最高温度（°C）</th><th>比草地高（°C）</th></tr></thead>
+              <thead><tr><th>下垫面</th><th>初始温</th><th>最高温</th><th>升温幅度</th></tr></thead>
               <tbody id="s005TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击下垫面按钮添加记录</td></tr>
+                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"绘制温度曲线"自动记录</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
@@ -391,130 +442,163 @@ function initS005Simulator(){
       </div>
       <div id="s005Con" class="conclusion-box"></div>
     </div>`;
+
+  // 温度数据（模拟）
+  window._s005Temps={
+    cement:[25,28,31,34,36,38.5,39,38,37,35.5],
+    soil:[25,27.5,30,32.5,34.5,36,37,36.5,35.5,34],
+    grass:[25,26,27,28,29,30,30.5,30,29.5,29],
+    water:[25,25.5,26.5,27.5,28.5,29.5,30,30.5,30.5,30]
+  };
   window._s005R=[];
+  s005Draw();
 }
 
-const _s005Data={
-  '草地':{speed:0.4,maxTemp:32,desc:'比热容大，蒸发散热，升温慢'},
-  '裸土':{speed:0.6,maxTemp:35,desc:'比热容中等，升温较快'},
-  '混凝土':{speed:1.2,maxTemp:45,desc:'比热容小，吸热快、散热慢，升温最快'}
-};
+function s005Draw(){
+  const temps=window._s005Temps;
+  // 绘制四条曲线
+  ['cement','soil','gras','water'].forEach(key=>{
+    const el=document.getElementById('line'+key.charAt(0).toUpperCase()+key.slice(1));
+    if(!el)return;
+    let pts='';
+    temps[key].forEach((t,i)=>{
+      const x=50+i*44.4;
+      const y=290-(t-25)*16;
+      pts+=`${x},${y} `;
+    });
+    el.setAttribute('points',pts.trim());
+  });
+  // 更新最高温标注
+  const mt=document.getElementById('s005MaxTemp');
+  if(mt)mt.textContent=`水泥最高：39°C | 草地最高：30.5°C | 温差：8.5°C`;
+}
 
-function s005Select(surface){
-  window._s005Cur=surface;
-  const info=document.getElementById('s005Info');
-  const d=_s005Data[surface];
-  if(info&&d){
-    const diff=(d.maxTemp-32).toFixed(1);
-    info.innerHTML=`<strong>${surface}</strong><br/>升温速度：${d.speed}°C/min<br/>最高温度：${d.maxTemp}°C<br/>比草地高：${diff}°C<br/>说明：${d.desc}`;
-  }
+function s005Select(type){
+  window._s005Cur=type;
 }
 
 function s005Rec(){
   window._s005R=window._s005R||[];
-  Object.keys(_s005Data).forEach(surface=>{
-    const d=_s005Data[surface];
-    const diff=(d.maxTemp-32).toFixed(1);
-    window._s005R.push({surface:surface,speed:d.speed,maxTemp:d.maxTemp,diff:diff});
+  const t=window._s005Temps;
+  ['cement','soil','gras','water'].forEach(key=>{
+    const arr=t[key];
+    const name={cement:'水泥地面',soil:'裸土',gras:'草地',water:'水面'}[key];
+    window._s005R.push({type:name,init:arr[0],max:Math.max(...arr),rise:(Math.max(...arr)-arr[0]).toFixed(1)});
   });
   s005Rdr();
 }
-
-function s005Rdr(){
-  const tb=document.getElementById('s005TBb');
-  if(!tb)return;
-  if(!window._s005R||window._s005R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击下垫面按钮添加记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s005R.map(r=>`<tr><td>${r.surface}</td><td>${r.speed}</td><td>${r.maxTemp}</td><td>${r.diff}</td></tr>`).join('');
-}
-
-function s005Ana(){
-  const el=document.getElementById('s005Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s005Rdr(){const tb=document.getElementById('s005TBb');if(!tb)return;if(window._s005R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"绘制温度曲线"自动记录</td></tr>';return;}tb.innerHTML=window._s005R.map(r=>`<tr><td>${r.type}</td><td>${r.init}°C</td><td>${r.max}°C</td><td>${r.rise}°C</td></tr>`).join('');}
+function s005Reset(){window._s005R=[];s005Rdr();}
+function s005Ana(){const el=document.getElementById('s005Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>下垫面性质差异</strong>：混凝土（城市道路、建筑）比热容小，吸热快、散热慢，温度最高；草地有蒸腾作用，能降温，温度最低。这是城市热岛效应的核心成因。</p>
-    <p>2. <strong>城市热岛效应</strong>：城市气温明显高于周围郊区，形成"热岛"。夏季厦门城市中心比环岛路（沿海）高2-3°C。</p>
-    <p>3. <strong>缓解措施</strong>：①增加城市绿地和水体（"冷岛"效应）；②推广浅色屋顶（反射太阳辐射）；③优化城市空间布局（建设通风廊道）；④减少人为热源（推广新能源汽车）。</p>
-    <p style="margin-top:8px;color:#dc2626;">📌 本实验控制照射时间和光照强度不变，只改变下垫面类型，观察不同下垫面的升温差异，揭示城市热岛效应的成因。</p>`;
-  }
-}
-
+    <p>1. <strong>热岛效应成因</strong>：城市下垫面（混凝土、沥青）比热容小，白天吸热快、温度高；城市人工热源多（空调、交通、工业）；建筑物密集通风不良；大气污染物吸热量大。以上因素共同导致城市温度比郊区高2-5°C，形成"热岛效应"。</p>
+    <p>2. <strong>下垫面影响规律</strong>：比热容越大，升温越慢、最高温越低。本实验模拟结果：水面升温最慢（比热容最大），草地次之（植被蒸腾降温），裸土较快，水泥地面升温最快（比热容最小）。</p>
+    <p>3. <strong>缓解措施</strong>：①增加城市绿地和水体（"冷岛效应"抵消热岛）；②推广浅色屋面（反射更多太阳辐射）；③优化城市通风廊道（促进热量扩散）；④减少人为热源（清洁能源替代）。</p>
+    <p>4. <strong>厦门实践</strong>：厦门通过"海绵城市"建设（增加绿地水体）、环岛路防风林带（通风廊道）、建筑立面浅色化等措施，有效缓解了城市热岛效应。</p>
+    <p style="margin-top:8px;color:#dc2626;">📌 本实验控制照射强度和时间不变，只改变下垫面类型，观察温度变化规律的差异。水泥地面升温最快，代表城市；草地/水面升温慢，代表绿地水体对热岛的缓解作用。</p>`;}}
 function s005Clr(){window._s005R=[];s005Rdr();const el=document.getElementById('s005Con');if(el)el.style.display='none';}
+
 
 // ==================== s006 工业区位选择分析实验 ====================
 function initS006Simulator(){
   const C=document.getElementById('simCanvas'); if(!C)return;
-  C.innerHTML=''; C.style.background='#f0f9ff';
+  C.innerHTML=''; C.style.background='#faf5ff';
   C.innerHTML=`
     <div class="exp-container">
       <div class="exp-header">
-        <h3 style="color:#0369a1;margin:0;">🏭 工业区位选择分析实验（控制变量法）</h3>
+        <h3 style="color:#7c3aed;margin:0;">🏭 工业区位选择分析实验（控制变量法）</h3>
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：评价区域（某城市）、评价因子体系 ← 不变 &nbsp;|&nbsp;
-        自变量：工业类型 ← 可调节 &nbsp;|&nbsp;
-        因变量：最优厂址得分 ← 观察结果
+        控制变量：待选工业类型、评价因子体系 ← 不变 &nbsp;|&nbsp;
+        自变量：候选厂址（A/B/C三处） ← 可调节 &nbsp;|&nbsp;
+        因变量：总分、最优选址 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#0369a1;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#0c4a6;line-height:1.7;">
-            <li>评价区域（某城市）</li>
-            <li>评价因子（原料、能源、市场、交通、劳动力、环境）</li>
-            <li>评分标准（1-5分）</li>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:#faf5ff;border:1px solid #c4b5fd;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#6d28d9;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#7c3aed;line-height:1.7;">
+            <li>评价因子：原料、市场、能源、劳动力、交通、环境</li>
+            <li>各因子满分均为10分</li>
+            <li>工业类型固定（饮料/钢铁/电子）</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">工业类型（不同区位需求）</div>
+        <div style="background:#faf5ff;border:1px solid #a78bfa;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#6d28d9;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
+          <div style="font-size:11px;color:#7c3aed;line-height:1.7;">
+            候选厂址（A/B/C)<br/>选择不同工业类型
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
+        <div style="background:#faf5ff;border:1px solid #f59e0b;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">最优厂址总得分、最优先区位因子</div>
+          <div style="font-size:11px;color:#92400e;line-height:1.7;">
+            各因子评分（分）<br/>总分（分）<br/>最优选址
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:380px;">
-          <div style="padding:20px;background:#f0f9ff;border-radius:8px;border:1px solid #bae6fd;">
-            <div style="font-size:14px;color:#0369a1;margin-bottom:16px;font-weight:700;text-align:center;">工业区位因子评分矩阵</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-              <div style="padding:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;cursor:pointer;" onclick="s006Select('饮料厂')">
-                <div style="font-weight:700;color:#0369a1;margin-bottom:4px;font-size:12px;">🥤 饮料厂</div>
-                <div style="font-size:10px;color:#0c4a6;">市场指向型</div>
-                <div style="font-size:10px;color:#0369a1;margin-top:2px;">最优：城市近郊</div>
-              </div>
-              <div style="padding:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;cursor:pointer;" onclick="s006Select('钢铁厂')">
-                <div style="font-weight:700;color:#0369a1;margin-bottom:4px;font-size:12px;">⚙️ 钢铁厂</div>
-                <div style="font-size:10px;color:#0c4a6;">原料/动力指向型</div>
-                <div style="font-size:10px;color:#0369a1;margin-top:2px;">最优：矿区/港口</div>
-              </div>
-              <div style="padding:10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;cursor:pointer;" onclick="s006Select('电子厂')">
-                <div style="font-weight:700;color:#0369a1;margin-bottom:4px;font-size:12px;">💻 电子厂</div>
-                <div style="font-size:10px;color:#0c4a6;">技术指向型</div>
-                <div style="font-size:10px;color:#0369a1;margin-top:2px;">最优：高新区</div>
-              </div>
-            </div>
-          </div>
-          <div id="s006Info" style="margin-top:12px;padding:12px;background:#f0f9ff;border-radius:6px;font-size:12px;color:#0369a1;line-height:1.7;">
-            点击工业类型查看区位选择分析
+          <svg width="100%" height="340" viewBox="0 0 500 340" style="background:#faf5ff;border-radius:8px;border:1px solid #c4b5fd;">
+            <text x="250" y="18" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="700">工业区位评价雷达图（<tspan id="s006Title">饮料厂</tspan>）</text>
+            <!-- 雷达图网格 -->
+            <g id="radarGrid">
+              <polygon points="250,60 403,170 403,290 250,330 97,290 97,170" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+              <polygon points="250,100 343,183 343,267 250,300 157,267 157,183" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+              <polygon points="250,140 283,197 283,243 250,270 217,243 217,197" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+            </g>
+            <!-- 轴线 -->
+            <line x1="250" y1="170" x2="250" y2="60" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="250" y="50" text-anchor="middle" fill="#6d28d9" font-size="8" font-weight="700">原料</text>
+            <line x1="343" y1="197" x2="403" y2="170" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="455" y="165" fill="#6d28d9" font-size="8" font-weight="700">市场</text>
+            <line x1="343" y1="243" x2="403" y2="290" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="455" y="300" fill="#6d28d9" font-size="8" font-weight="700">能源</text>
+            <line x1="250" y1="270" x2="250" y2="330" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="250" y="340" text-anchor="middle" fill="#6d28d9" font-size="8" font-weight="700">劳动力</text>
+            <line x1="157" y1="243" x2="97" y2="290" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="45" y="300" fill="#6d28d9" font-size="8" font-weight="700">交通</text>
+            <line x1="157" y1="197" x2="97" y2="170" stroke="#94a3b8" stroke-width="0.8"/>
+            <text x="45" y="165" fill="#6d28d9" font-size="8" font-weight="700">环境</text>
+            <!-- 雷达图数据区 -->
+            <polygon id="radarA" points="250,60 403,170 403,290 250,330 97,290 97,170" fill="#ef444420" stroke="#ef4444" stroke-width="1.5" opacity="0"/>
+            <polygon id="radarB" points="250,60 403,170 403,290 250,330 97,290 97,170" fill="#3b82f620" stroke="#3b82f6" stroke-width="1.5" opacity="0"/>
+            <polygon id="radarC" points="250,60 403,170 403,290 250,330 97,290 97,170" fill="#22c55e20" stroke="#22c55e" stroke-width="1.5" opacity="0"/>
+            <text x="250" y="165" text-anchor="middle" fill="#dc2626" font-size="9" font-weight="700" id="s006Result">请选择工业类型查看评分</text>
+          </svg>
+          <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+            <button class="sim-btn" style="background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;" onclick="s006Set('drink')">🥤 饮料厂</button>
+            <button class="sim-btn" style="background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;" onclick="s006Set('steel')">⚙️ 钢铁厂</button>
+            <button class="sim-btn" style="background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;" onclick="s006Set('tech')">💻 电子厂</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 工业区位评价记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 选择工业类型（自变量）</h4>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sim-btn" style="background:#faf5ff;color:#6d28d9;text-align:left;padding:8px 10px;" onclick="s006Set('drink')">
+                <div style="font-weight:700;font-size:12px;">🥤 饮料厂（市场指向型）</div>
+                <div style="font-size:10px;color:#7c3aed;">产品运输不便，须接近消费市场</div>
+              </button>
+              <button class="sim-btn" style="background:#faf5ff;color:#6d28d9;text-align:left;padding:8px 10px;" onclick="s006Set('steel')">
+                <div style="font-weight:700;font-size:12px;">⚙️ 钢铁厂（原料/动力指向型）</div>
+                <div style="font-size:10px;color:#7c3aed;">原料和产品均笨重，须接近原料地或交通干线</div>
+              </button>
+              <button class="sim-btn" style="background:#faf5ff;color:#6d28d9;text-align:left;padding:8px 10px;" onclick="s006Set('tech')">
+                <div style="font-weight:700;font-size:12px;">💻 高科技电子厂（技术指向型）</div>
+                <div style="font-size:10px;color:#7c3aed;">须接近高等院校和科研机构，高素质人才密集区</div>
+              </button>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 厂址评分表</h4>
             <table class="data-table" id="s006TB">
-              <thead><tr><th>工业类型</th><th>最优厂址</th><th>主要区位因子</th><th>总评分</th></tr></thead>
+              <thead><tr><th>厂址</th><th>原料</th><th>市场</th><th>交通</th><th>总分</th></tr></thead>
               <tbody id="s006TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击工业类型卡片添加记录</td></tr>
+                <tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:8px;">选择工业类型后显示评分</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
-              <button class="sim-btn sim-btn-primary" onclick="s006Rec()">📝 记录数据</button>
+              <button class="sim-btn sim-btn-primary" onclick="s006Rec()">📝 记录评分</button>
               <button class="sim-btn sim-btn-success" onclick="s006Ana()">📊 分析规律</button>
               <button class="sim-btn" onclick="s006Clr()">🗑️ 清空</button>
             </div>
@@ -524,54 +608,67 @@ function initS006Simulator(){
       <div id="s006Con" class="conclusion-box"></div>
     </div>`;
   window._s006R=[];
+  s006Set('drink');
 }
 
 const _s006Data={
-  '饮料厂':{location:'城市近郊',factor:'市场',score:4.5,type:'市场指向型'},
-  '钢铁厂':{location:'矿区或港口',factor:'原料/能源',score:4.0,type:'原料指向型'},
-  '电子厂':{location:'高新技术产业开发区',factor:'高素质人才',score:4.8,type:'技术指向型'}
+  drink:{
+    name:'饮料厂',
+    A:{raw:3,market:10,energy:7,labor:6,trans:8,env:7,tot:41},
+    B:{raw:6,market:8,energy:7,labor:7,trans:9,env:6,tot:43},
+    C:{raw:4,market:9,energy:8,labor:5,trans:7,env:8,tot:41}
+  },
+  steel:{
+    name:'钢铁厂',
+    A:{raw:10,market:5,energy:9,labor:6,trans:8,env:3,tot:41},
+    B:{raw:7,market:7,energy:7,labor:7,trans:9,env:4,tot:41},
+    C:{raw:8,market:6,energy:10,labor:5,trans:7,env:2,tot:38}
+  },
+  tech:{
+    name:'电子厂',
+    A:{raw:5,market:8,energy:6,labor:9,trans:7,env:6,tot:41},
+    B:{raw:4,market:9,energy:5,labor:10,trans:8,env:7,tot:43},
+    C:{raw:3,market:7,energy:6,labor:8,trans:9,env:5,tot:38}
+  }
 };
 
-function s006Select(industry){
-  window._s006Cur=industry;
-  const info=document.getElementById('s006Info');
-  const d=_s006Data[industry];
-  if(info&&d) info.innerHTML=`<strong>${industry}</strong>（${d.type}）<br/>最优厂址：${d.location}<br/>主要区位因子：${d.factor}<br/>综合评价得分：${d.score}分<br/><br/>💡 饮料厂产品运输成本高、易变质，须接近消费市场；钢铁厂原料（铁矿石）运输量大，倾向接近原料地或交通便利的港口；电子厂需要高素质人才，集中在科教资源密集区。`;
+function s006Set(type){
+  window._s006Cur=type;
+  const d=_s006Data[type]; if(!d)return;
+  const t=document.getElementById('s006Title');
+  if(t)t.textContent=d.name+'——厂址评分';
+  // 更新表格
+  const tb=document.getElementById('s006TBb');
+  if(tb)tb.innerHTML=`<tr>
+    <td>A址</td><td>${d.A.raw}</td><td>${d.A.market}</td><td>${d.A.trans}</td><td><strong>${d.A.tot}</strong></td>
+  </tr><tr>
+    <td>B址</td><td>${d.B.raw}</td><td>${d.B.market}</td><td>${d.B.trans}</td><td><strong>${d.B.tot}</strong></td>
+  </tr><tr>
+    <td>C址</td><td>${d.C.raw}</td><td>${d.C.market}</td><td>${d.C.trans}</td><td><strong>${d.C.tot}</strong></td>
+  </tr>`;
+  const rt=document.getElementById('s006Result');
+  const best=d.A.tot>=d.B.tot&&d.A.tot>=d.C.tot?'A':d.B.tot>=d.C.tot?'B':'C';
+  if(rt)rt.textContent=`最优选址：${best}址（总分${Math.max(d.A.tot,d.B.tot,d.C.tot)}分）`;
 }
 
 function s006Rec(){
   window._s006R=window._s006R||[];
-  Object.keys(_s006Data).forEach(industry=>{
-    const d=_s006Data[industry];
-    window._s006R.push({industry:industry,location:d.location,factor:d.factor,score:d.score});
-  });
+  const t=window._s006Cur||'drink';
+  const d=_s006Data[t];
+  const best=d.A.tot>=d.B.tot&&d.A.tot>=d.C.tot?'A':d.B.tot>=d.C.tot?'B':'C';
+  window._s006R.push({type:d.name,best:best,score:Math.max(d.A.tot,d.B.tot,d.C.tot)});
   s006Rdr();
 }
-
-function s006Rdr(){
-  const tb=document.getElementById('s006TBb');
-  if(!tb)return;
-  if(!window._s006R||window._s006R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击工业类型卡片添加记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s006R.map(r=>`<tr><td>${r.industry}</td><td>${r.location}</td><td>${r.factor}</td><td>${r.score}</td></tr>`).join('');
-}
-
-function s006Ana(){
-  const el=document.getElementById('s006Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s006Rdr(){const tb=document.getElementById('s006TBb');if(!tb)return;if(window._s006R.length===0){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:8px;">选择工业类型后显示评分</td></tr>';return;}tb.innerHTML=window._s006R.map(r=>`<tr><td>${r.type}</td><td>${r.best}址</td><td>${r.score}</td><td colspan="2">已记录</td></tr>`).join('');}
+function s006Ana(){const el=document.getElementById('s006Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>工业区位因子</strong>：自然因素（土地、水源、原料、能源）；经济因素（市场、交通、劳动力、科技）；社会因素（政策、个人偏好）；环境因素（污染、生态）。</p>
-    <p>2. <strong>工业类型与区位偏好</strong>：①原料指向型（制糖、水产品加工）——接近原料产地；②市场指向型（啤酒、家具）——接近消费市场；③动力指向型（电解铝）——接近能源基地；④劳动力指向型（纺织、电子装配）——劳动力丰富且廉价地区；⑤技术指向型（集成电路、生物制药）——高素质人才密集区。</p>
-    <p>3. <strong>区位因素的变化</strong>：随着科技进步和交通改善，原料对工业区位的影响减弱，市场和人才的影响增强。厦门的优势在于港口条件优越、对外开放早，适合发展电子信息、现代物流等产业。</p>
-    <p style="margin-top:8px;color:#0369a1;">📌 本实验控制评价区域和评分标准不变，只改变工业类型，分析不同工业的区位选择规律。</p>`;
-  }
-}
-
+    <p>1. <strong>工业区位因子</strong>：①自然因素（土地、水源、原料、能源）；②经济因素（市场、交通、劳动力、科技）；③社会因素（政策、个人偏好、工业惯性）；④环境因素（污染型工业须远离居民区）。</p>
+    <p>2. <strong>工业类型与区位偏好</strong>：①原料指向型（制糖、水产品）——接近原料地；②市场指向型（饮料、家具）——接近消费市场；③动力指向型（电解铝）——接近能源基地；④劳动力指向型（纺织、电子装配）——接近廉价劳动力丰富地区；⑤技术指向型（集成电路、生物制药）——接近高教和科研机构密集区。</p>
+    <p>3. <strong>厦门工业区位优势</strong>：港口条件优越（交通便利）、对外开放早（政策优势）、毗邻台湾（合作优势）、环境优美（适宜高新技术产业），适合发展电子信息、现代物流、高端制造等产业。</p>
+    <p>4. <strong>工业4.0趋势</strong>：智能制造、个性化定制、数据驱动决策成为新趋势，工业区位对高素质人才和高速信息基础设施的依赖显著增强。</p>
+    <p style="margin-top:8px;color:#7c3aed;">📌 本实验控制评价因子体系和满分标准不变，只改变工业类型，观察不同工业类型的区位偏好差异，学习因地制宜选择工业区位的方法。</p>`;}}
 function s006Clr(){window._s006R=[];s006Rdr();const el=document.getElementById('s006Con');if(el)el.style.display='none';}
+
 
 // ==================== s007 农业区位因素与农业技术改良实验 ====================
 function initS007Simulator(){
@@ -584,66 +681,92 @@ function initS007Simulator(){
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：作物种类（小麦）、生长周期 ← 不变 &nbsp;|&nbsp;
-        自变量：土壤类型 + 栽培技术 ← 可调节 &nbsp;|&nbsp;
-        因变量：发芽率、株高、长势评分 ← 观察结果
+        控制变量：作物种类（水稻）、种植密度 ← 不变 &nbsp;|&nbsp;
+        自变量：土壤类型、灌溉方式 ← 可调节 &nbsp;|&nbsp;
+        因变量：发芽率、株高、产量 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#15803d;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#166534;line-height:1.7;">
-            <li>作物种类（小麦）</li>
-            <li>生长周期（2周）</li>
-            <li>浇水量（定时定量）</li>
+          <div style="font-size:11px;color:#166534;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#15803d;line-height:1.7;">
+            <li>作物种类：水稻</li>
+            <li>种植密度：相同</li>
+            <li>光照时间：相同</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">土壤类型（砂土/黏土/壤土）+ 技术（滴灌/温室）</div>
+        <div style="background:#f0fdf4;border:1px solid #4ade80;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#166534;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
+          <div style="font-size:11px;color:#15803d;line-height:1.7;">
+            土壤类型（砂土/黏土/壤土）<br/>灌溉方式（漫灌/喷灌/滴灌）
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
+        <div style="background:#f0fdf4;border:1px solid #f59e0b;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">发芽率（%）、株高（cm）、长势评分（1-5分）</div>
+          <div style="font-size:11px;color:#92400e;line-height:1.7;">
+            发芽率（%）<br/>株高（cm）<br/>产量（kg/亩）
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:380px;">
-          <svg width="100%" height="280" viewBox="0 0 500 280" style="background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0;">
-            <text x="250" y="20" text-anchor="middle" fill="#15803d" font-size="12" font-weight="700">不同土壤与技术条件下作物生长对比</text>
-            <!-- 砂土 -->
-            <rect x="40" y="50" width="120" height="180" fill="#e5e7eb" rx="4" stroke="#9ca3af" stroke-width="1"/>
-            <text x="100" y="40" text-anchor="middle" fill="#6b7280" font-size="9" font-weight="700">砂土</text>
-            <text x="100" y="245" text-anchor="middle" fill="#15803d" font-size="8">发芽率：60%</text>
-            <text x="100" y="258" text-anchor="middle" fill="#15803d" font-size="8">株高：12cm | 评分：2分</text>
-            <!-- 黏土 -->
-            <rect x="190" y="50" width="120" height="180" fill="#78716c" rx="4" stroke="#57534e" stroke-width="1"/>
-            <text x="250" y="40" text-anchor="middle" fill="#78716c" font-size="9" font-weight="700">黏土</text>
-            <text x="250" y="245" text-anchor="middle" fill="#15803d" font-size="8">发芽率：70%</text>
-            <text x="250" y="258" text-anchor="middle" fill="#15803d" font-size="8">株高：15cm | 评分：3分</text>
-            <!-- 壤土 -->
-            <rect x="340" y="50" width="120" height="180" fill="#a1a1aa" rx="4" stroke="#71717a" stroke-width="1"/>
-            <text x="400" y="40" text-anchor="middle" fill="#52525b" font-size="9" font-weight="700">壤土（最佳）</text>
-            <text x="400" y="245" text-anchor="middle" fill="#15803d" font-size="8">发芽率：92%</text>
-            <text x="400" y="258" text-anchor="middle" fill="#15803d" font-size="8">株高：22cm | 评分：5分</text>
-            <text x="250" y="275" text-anchor="middle" fill="#16a34a" font-size="9">💡 壤土砂黏比例适中，保水保肥性好，最适合作物生长</text>
+          <svg width="100%" height="320" viewBox="0 0 500 320" style="background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0;">
+            <text x="250" y="18" text-anchor="middle" fill="#166534" font-size="12" font-weight="700">不同土壤与灌溉方式的作物生长对比</text>
+            <!-- 土壤类型图示 -->
+            <rect x="40" y="50" width="140" height="100" fill="#fefce8" rx="8" stroke="#a16207" stroke-width="1.5"/>
+            <text x="110" y="80" text-anchor="middle" fill="#92400e" font-size="10" font-weight="700">砂土</text>
+            <text x="110" y="98" text-anchor="middle" fill="#a16207" font-size="8">保水性差</text>
+            <text x="110" y="112" text-anchor="middle" fill="#a16207" font-size="8">通气性优</text>
+            <text x="110" y="130" text-anchor="middle" fill="#dc2626" font-size="8">⚠️ 产量较低</text>
+            <rect x="200" y="50" width="140" height="100" fill="#f0f9ff" rx="8" stroke="#3b82f6" stroke-width="1.5"/>
+            <text x="270" y="80" text-anchor="middle" fill="#1d4ed" font-size="10" font-weight="700">黏土</text>
+            <text x="270" y="98" text-anchor="middle" fill="#2563eb" font-size="8">保水性优</text>
+            <text x="270" y="112" text-anchor="middle" fill="#2563eb" font-size="8">通气性差</text>
+            <text x="270" y="130" text-anchor="middle" fill="#dc2626" font-size="8">⚠️ 排水不良</text>
+            <rect x="360" y="50" width="140" height="100" fill="#f0fdf4" rx="8" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="430" y="80" text-anchor="middle" fill="#166534" font-size="10" font-weight="700">壤土</text>
+            <text x="430" y="98" text-anchor="middle" fill="#15803d" font-size="8">砂黏比例适中</text>
+            <text x="430" y="112" text-anchor="middle" fill="#15803d" font-size="8">保水通气均优</text>
+            <text x="430" y="130" text-anchor="middle" fill="#16a34a" font-size="8">✅ 产量最高</text>
+            <!-- 灌溉方式 -->
+            <rect x="40" y="170" width="140" height="100" fill="#eff6ff" rx="8" stroke="#60a5fa" stroke-width="1.5"/>
+            <text x="110" y="200" text-anchor="middle" fill="#1d4ed" font-size="10" font-weight="700">漫灌</text>
+            <text x="110" y="220" text-anchor="middle" fill="#64748b" font-size="8">水利用率：40%</text>
+            <text x="110" y="234" text-anchor="middle" fill="#dc2626" font-size="8">⚠️ 浪费严重</text>
+            <rect x="200" y="170" width="140" height="100" fill="#eff6ff" rx="8" stroke="#60a5fa" stroke-width="1.5"/>
+            <text x="270" y="200" text-anchor="middle" fill="#1d4ed" font-size="10" font-weight="700">喷灌</text>
+            <text x="270" y="220" text-anchor="middle" fill="#64748b" font-size="8">水利用率：70%</text>
+            <text x="270" y="234" text-anchor="middle" fill="#16a34a" font-size="8">✅ 效率较好</text>
+            <rect x="360" y="170" width="140" height="100" fill="#eff6ff" rx="8" stroke="#60a5fa" stroke-width="1.5"/>
+            <text x="430" y="200" text-anchor="middle" fill="#1d4ed" font-size="10" font-weight="700">滴灌</text>
+            <text x="430" y="220" text-anchor="middle" fill="#64748b" font-size="8">水利用率：90%</text>
+            <text x="430" y="234" text-anchor="middle" fill="#16a34a" font-size="8">✅ 节水最优</text>
+            <text x="250" y="300" text-anchor="middle" fill="#166534" font-size="9" id="s007Result">点击按钮查看农业技术改良效果</text>
           </svg>
           <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="sim-btn" style="background:#f0fdf4;color:#15803d;" onclick="s007Select('砂土')">🟫 砂土</button>
-            <button class="sim-btn" style="background:#f0fdf4;color:#15803d;" onclick="s007Select('黏土')">🟤 黏土</button>
-            <button class="sim-btn" style="background:#f0fdf4;color:#15803d;" onclick="s007Select('壤土')">🟢 壤土</button>
-            <button class="sim-btn sim-btn-primary" onclick="s007Rec()">📝 记录数据</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s007Set('soil')">🌱 土壤改良对比</button>
+            <button class="sim-btn" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;" onclick="s007Set('irrig')">💧 灌溉技术对比</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
-          <div id="s007Info" style="padding:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:12px;color:#15803d;line-height:1.7;">
-            选择土壤类型查看作物生长特征
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 选择实验组别（自变量）</h4>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s007Set('soil')">
+                <div style="font-weight:700;font-size:12px;">🌱 土壤类型对比</div>
+                <div style="font-size:10px;color:#15803d;">比较砂土/黏土/壤土对作物生长的影响</div>
+              </button>
+              <button class="sim-btn" style="background:#eff6ff;color:#1d4ed;text-align:left;padding:8px 10px;" onclick="s007Set('irrig')">
+                <div style="font-weight:700;font-size:12px;">💧 灌溉方式对比</div>
+                <div style="font-size:10px;color:#2563eb;">比较漫灌/喷灌/滴灌的水利用效率</div>
+              </button>
+            </div>
           </div>
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 农业实验观察记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 农业生产记录表</h4>
             <table class="data-table" id="s007TB">
-              <thead><tr><th>土壤类型</th><th>发芽率（%）</th><th>株高（cm）</th><th>长势评分</th></tr></thead>
+              <thead><tr><th>处理</th><th>发芽率</th><th>株高</th><th>产量</th></tr></thead>
               <tbody id="s007TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击土壤类型按钮添加记录</td></tr>
+                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击实验按钮添加数据</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
@@ -659,122 +782,135 @@ function initS007Simulator(){
   window._s007R=[];
 }
 
-const _s007Data={
-  '砂土':{germination:60,height:12,score:2,desc:'保水性差，养分少，生长较差'},
-  '黏土':{germination:70,height:15,score:3,desc:'保水性强但通气性差，生长一般'},
-  '壤土':{germination:92,height:22,score:5,desc:'砂黏比例适中，保水保肥，生长最好'}
-};
+const _s007SoilData=[
+  {type:'砂土',ger:65,height:75,yield:320},
+  {type:'黏土',ger:70,height:80,yield:380},
+  {type:'壤土',ger:85,height:95,yield:480}
+];
+const _s007IrrigData=[
+  {type:'漫灌',util:40,height:80,yield:380},
+  {type:'喷灌',util:70,height:90,yield:440},
+  {type:'滴灌',util:90,height:98,yield:510}
+];
 
-function s007Select(soil){
-  window._s007Cur=soil;
-  const info=document.getElementById('s007Info');
-  const d=_s007Data[soil];
-  if(info&&d) info.innerHTML=`<strong>${soil}</strong><br/>发芽率：${d.germination}%<br/>株高：${d.height} cm<br/>长势评分：${d.score}分<br/>说明：${d.desc}`;
+function s007Set(group){
+  window._s007Cur=group;
+  const rt=document.getElementById('s007Result');
+  if(group==='soil'&&rt)rt.textContent='土壤改良：壤土产量最高（480kg/亩），砂土最低（320kg/亩）';
+  if(group==='irrig'&&rt)rt.textContent='灌溉改良：滴灌水利用率90%，产量最高（510kg/亩）';
 }
 
 function s007Rec(){
   window._s007R=window._s007R||[];
-  Object.keys(_s007Data).forEach(soil=>{
-    const d=_s007Data[soil];
-    window._s007R.push({soil:soil,germination:d.germination,height:d.height,score:d.score});
-  });
+  _s007SoilData.forEach(d=>window._s007R.push({type:d.type,ger:d.ger,height:d.height,yield:d.yield}));
+  _s007IrrigData.forEach(d=>window._s007R.push({type:d.type,ger:'--',height:d.height,yield:d.yield}));
   s007Rdr();
 }
-
-function s007Rdr(){
-  const tb=document.getElementById('s007TBb');
-  if(!tb)return;
-  if(!window._s007R||window._s007R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击土壤类型按钮添加记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s007R.map(r=>`<tr><td>${r.soil}</td><td>${r.germination}</td><td>${r.height}</td><td>${r.score}</td></tr>`).join('');
-}
-
-function s007Ana(){
-  const el=document.getElementById('s007Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s007Rdr(){const tb=document.getElementById('s007TBb');if(!tb)return;if(window._s007R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击实验按钮添加数据</td></tr>';return;}tb.innerHTML=window._s007R.map(r=>`<tr><td>${r.type}</td><td>${r.ger}</td><td>${r.height}</td><td>${r.yield}</td></tr>`).join('');}
+function s007Ana(){const el=document.getElementById('s007Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>土壤类型对农业的影响</strong>：壤土（砂黏比例适中）最适合作物生长，保水保肥性好；砂土保水性差，须频繁灌溉；黏土通气性差，须改良（掺砂、施有机肥）。</p>
-    <p>2. <strong>农业技术改良</strong>：①温室技术——调节温度，使作物摆脱季节限制；②滴灌技术——提高水分利用效率，适合干旱地区；③有机肥施用——改良土壤结构，提高肥力；④基因改良——提高抗逆性（抗虫、抗旱）。</p>
-    <p>3. <strong>福建农业特色</strong>：福建多丘陵山地，耕地资源有限，须发展设施农业（大棚）、立体农业（茶园梯坎）、生态农业（稻渔综合种养）。同安的现代化农业园区就是农业区位因素与技术改良相结合的典型案例。</p>
-    <p style="margin-top:8px;color:#16a34a;">📌 本实验控制作物种类和浇水量不变，只改变土壤类型和栽培技术，观察对作物生长的影响，理解农业技术改良的意义。</p>`;
-  }
-}
-
+    <p>1. <strong>农业区位自然因素</strong>：气候（光照、热量、降水）、地形（平坦利于耕作）、土壤（肥力、质地）、水源（灌溉保障）是决定农业生产的基本因素。壤土（砂黏比例适中）是最适宜农业的土壤类型。</p>
+    <p>2. <strong>农业技术改良</strong>：①温室技术（控制温度，反季节生产）；②滴灌技术（精准供水，水利用率从40%提升至90%）；③转基因技术（抗虫、抗旱、高产）；④生态农业（良性循环，减少化肥农药使用）。</p>
+    <p>3. <strong>厦门特色农业</strong>：厦门属于亚热带季风气候，适合发展亚热带水果（火龙果、香蕉）、蔬菜大棚、水产养殖等。现代农业产业园通过"设施农业+智慧农业"大幅提高土地产出率。</p>
+    <p>4. <strong>国家在粮食安全中的战略</strong>：严守18亿亩耕地红线、建设高标准农田、推广良种良法、发展智慧农业，是保障粮食安全的核心举措。</p>
+    <p style="margin-top:8px;color:#16a34a;">📌 本实验控制作物种类和种植密度不变，只改变土壤类型和灌溉方式，观察农业技术改良对作物产量的影响。壤土+滴灌组合产量最高，是现代农业推荐方案。</p>`;}}
 function s007Clr(){window._s007R=[];s007Rdr();const el=document.getElementById('s007Con');if(el)el.style.display='none';}
+
 
 // ==================== s008 全球气候变化与温室效应模拟实验 ====================
 function initS008Simulator(){
   const C=document.getElementById('simCanvas'); if(!C)return;
-  C.innerHTML=''; C.style.background='#fef3c7';
+  C.innerHTML=''; C.style.background='#eff6ff';
   C.innerHTML=`
     <div class="exp-container">
       <div class="exp-header">
-        <h3 style="color:#b45309;margin:0;">🌍 全球气候变化与温室效应模拟实验（控制变量法）</h3>
+        <h3 style="color:#1d4ed;margin:0;">🌍 全球气候变化与温室效应模拟实验（控制变量法）</h3>
         <span class="exp-badge">控制变量法实验</span>
       </div>
       <p style="color:#64748b;font-size:12px;margin:0 0 12px 0;">
-        控制变量：照射强度、照射时间 ← 不变 &nbsp;|&nbsp;
-        自变量：盒内气体成分（普通空气/CO₂）← 可调节 &nbsp;|&nbsp;
-        因变量：升温速度、最高温度 ← 观察结果
+        控制变量：照射强度（500W台灯）、照射时间（20min） ← 不变 &nbsp;|&nbsp;
+        自变量：CO₂浓度 ← 可调节（正常/加倍） &nbsp;|&nbsp;
+        因变量：升温幅度、最高温度 ← 观察结果
       </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:10px;">
-          <div style="font-size:11px;color:#b45309;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
-          <ul style="margin:0;padding-left:16px;font-size:11px;color:#92400e;line-height:1.7;">
-            <li>照射强度（500W台灯）</li>
-            <li>照射时间（20分钟）</li>
-            <li>塑料盒规格</li>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
+          <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🔒 控制变量</div>
+          <ul style="margin:0;padding-left:16px;font-size:11px;color:#2563eb;line-height:1.7;">
+            <li>照射强度：500W</li>
+            <li>照射时间：20分钟</li>
+            <li>盒子大小、密封性一致</li>
           </ul>
         </div>
-        <div style="background:#f8fafc;border:1px solid #bfdbfe;border-radius:8px;padding:10px;">
+        <div style="background:#eff6ff;border:1px solid #3b82f6;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#1d4ed;font-weight:700;margin-bottom:4px;">🎛️ 自变量</div>
-          <div style="font-size:11px;color:#1e40af;line-height:1.7;">盒内气体成分（普通空气 / CO₂浓度加倍）</div>
+          <div style="font-size:11px;color:#2563eb;line-height:1.7;">
+            CO₂浓度<br/>（正常350ppm / 加倍700ppm）
+          </div>
         </div>
-        <div style="background:#f8fafc;border:1px solid #fde68a;border-radius:8px;padding:10px;">
+        <div style="background:#eff6ff;border:1px solid #f59e0b;border-radius:8px;padding:10px;">
           <div style="font-size:11px;color:#92400e;font-weight:700;margin-bottom:4px;">👁️ 因变量</div>
-          <div style="font-size:11px;color:#92400e;line-height:1.7;">升温速度（°C/min）、最高温度（°C）、保温效果</div>
+          <div style="font-size:11px;color:#92400e;line-height:1.7;">
+            升温幅度（°C）<br/>最高温度（°C）<br/>保温效果（降温速度）
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap;">
         <div style="flex:1;min-width:380px;">
-          <svg width="100%" height="300" viewBox="0 0 500 300" style="background:#fef3c7;border-radius:8px;border:1px solid #fcd34d;">
-            <text x="250" y="20" text-anchor="middle" fill="#b45309" font-size="12" font-weight="700">温室效应模拟——温度对比曲线</text>
+          <svg width="100%" height="320" viewBox="0 0 500 320" style="background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe;">
+            <text x="250" y="18" text-anchor="middle" fill="#1d4ed" font-size="12" font-weight="700">温室效应实验：不同CO₂浓度下温度变化</text>
             <!-- 坐标轴 -->
-            <line x1="50" y1="260" x2="450" y2="260" stroke="#6b7280" stroke-width="1"/>
-            <line x1="50" y1="260" x2="50" y2="40" stroke="#6b7280" stroke-width="1"/>
-            <text x="250" y="290" text-anchor="middle" fill="#64748b" font-size="8">时间（分钟）</text>
-            <text x="30" y="150" text-anchor="middle" fill="#64748b" font-size="8" transform="rotate(-90 30 150)">温度（°C）</text>
-            <!-- 普通空气升温曲线 -->
-            <polyline points="50,250 110,245 170,242 230,240 290,239 350,238 410,238" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
-            <circle cx="410" cy="238" r="3" fill="#3b82f6"/><text x="418" y="242" fill="#1d4ed" font-size="8">普通空气（最高28°C）</text>
-            <!-- CO2盒升温曲线 -->
-            <polyline points="50,250 110,242 170,236 230,230 290,225 350,220 410,218" fill="none" stroke="#ef4444" stroke-width="2.5"/>
-            <circle cx="410" cy="218" r="3" fill="#ef4444"/><text x="418" y="222" fill="#dc2626" font-size="8">CO₂盒（最高38°C）</text>
-            <!-- 温差标注 -->
-            <line x1="410" y1="238" x2="410" y2="218" stroke="#92400e" stroke-width="1.5" stroke-dasharray="2,1"/>
-            <text x="430" y="228" fill="#92400e" font-size="8" font-weight="700">温差 10°C</text>
-            <text x="250" y="280" text-anchor="middle" fill="#b45309" font-size="9">💡 CO₂盒升温更快、温度更高 → 温室效应增强</text>
+            <line x1="60" y1="290" x2="460" y2="290" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="290" x2="60" y2="50" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="250" y="315" text-anchor="middle" fill="#64748b" font-size="8">时间（min）</text>
+            <text x="55" y="170" fill="#64748b" font-size="8" transform="rotate(-90,55,170)">温度（°C）</text>
+            <!-- 刻度 -->
+            <text x="60" y="300" fill="#94a3b8" font-size="7">25</text>
+            <text x="60" y="230" fill="#94a3b8" font-size="7">27.5</text>
+            <text x="60" y="160" fill="#94a3b8" font-size="7">30</text>
+            <text x="60" y="90" fill="#94a3b8" font-size="7">32.5</text>
+            <text x="60" y="55" fill="#94a3b8" font-size="7">35</text>
+            <!-- 时间刻度 -->
+            <text x="60" y="305" fill="#94a3b8" font-size="7">0</text>
+            <text x="143" y="305" fill="#94a3b8" font-size="7">5</text>
+            <text x="226" y="305" fill="#94a3b8" font-size="7">10</text>
+            <text x="310" y="305" fill="#94a3b8" font-size="7">15</text>
+            <text x="393" y="305" fill="#94a3b8" font-size="7">20</text>
+            <!-- 正常CO2曲线 -->
+            <polyline id="lineNormal" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linejoin="round"
+              points="60,230 143,207 226,190 310,175 393,165 460,175"/>
+            <!-- 加倍CO2曲线 -->
+            <polyline id="lineDouble" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="6,3"
+              points="60,230 143,200 226,178 310,158 393,142 460,150"/>
+            <!-- 图例 -->
+            <rect x="360" y="55" width="14" height="10" fill="#22c55e" rx="2"/><text x="380" y="63" fill="#166534" font-size="8">正常CO₂（350ppm）</text>
+            <rect x="360" y="70" width="14" height="10" fill="none" stroke="#ef4444" stroke-width="1.5" rx="2"/><text x="380" y="78" fill="#dc2626" font-size="8">CO₂加倍（700ppm）</text>
+            <text x="250" y="40" text-anchor="middle" fill="#1d4ed" font-size="9" font-weight="700" id="s008Result">CO₂加倍时升温更快、最高温更高、降温更慢</text>
           </svg>
           <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="sim-btn" style="background:#eff6ff;color:#1d4ed;" onclick="s008Select('普通空气')">🌬️ 普通空气</button>
-            <button class="sim-btn" style="background:#fef2f2;color:#dc2626;" onclick="s008Select('CO₂')">🏭 CO₂浓度加倍</button>
-            <button class="sim-btn sim-btn-primary" onclick="s008Rec()">📝 记录数据</button>
+            <button class="sim-btn sim-btn-primary" onclick="s008Draw()">📈 绘制温度曲线</button>
+            <button class="sim-btn" style="background:#eff6ff;color:#1d4ed;border:1px solid #bfdbfe;" onclick="s008Reset()">🔄 重置</button>
           </div>
         </div>
         <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px;">
-          <div id="s008Info" style="padding:12px;background:#fef3c7;border:1px solid #fcd34d;border-radius:6px;font-size:12px;color:#b45309;line-height:1.7;">
-            选择气体成分查看温室效应特征
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
+            <h4 style="font-size:13px;color:#334155;margin:0 0 10px 0;">🎛️ 调节CO₂浓度（自变量）</h4>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <button class="sim-btn" style="background:#f0fdf4;color:#166534;text-align:left;padding:8px 10px;" onclick="s008Select('normal')">
+                <div style="font-weight:700;font-size:12px;">🟢 正常CO₂（350ppm）</div>
+                <div style="font-size:10px;color:#15803d;">当前大气CO₂浓度水平</div>
+              </button>
+              <button class="sim-btn" style="background:#fef2f2;color:#dc2626;text-align:left;padding:8px 10px;" onclick="s008Select('double')">
+                <div style="font-weight:700;font-size:12px;">🔴 CO₂加倍（700ppm）</div>
+                <div style="font-size:10px;color:#ef4444;">模拟2100年预估CO₂浓度</div>
+              </button>
+            </div>
           </div>
           <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;">
-            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 温室效应模拟记录表</h4>
+            <h4 style="font-size:13px;color:#334155;margin:0 0 8px 0;">📝 温室效应实验记录表</h4>
             <table class="data-table" id="s008TB">
-              <thead><tr><th>气体成分</th><th>升温速度（°C/min）</th><th>最高温度（°C）</th><th>保温效果</th></tr></thead>
+              <thead><tr><th>CO₂浓度</th><th>升温幅度</th><th>最高温</th><th>现象</th></tr></thead>
               <tbody id="s008TBb">
-                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击气体成分按钮添加记录</td></tr>
+                <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"绘制温度曲线"添加数据</td></tr>
               </tbody>
             </table>
             <div style="margin-top:8px;display:flex;gap:6px;">
@@ -787,54 +923,60 @@ function initS008Simulator(){
       </div>
       <div id="s008Con" class="conclusion-box"></div>
     </div>`;
+
+  window._s008Normal=[25,25.8,26.9,28.3,29.8,30.5,30.2,29.8,29.2,28.7,28.3,28.1,27.9,27.7,27.6,27.5,27.5,27.6,27.7,28.0,28.3];
+  window._s008Double=[25,26.5,28.2,30.1,32.0,33.2,33.5,33.2,32.8,32.3,32.0,31.8,31.7,31.6,31.6,31.7,31.8,32.0,32.2,32.5,32.8];
   window._s008R=[];
+  s008Draw();
 }
 
-const _s008Data={
-  '普通空气':{speed:0.2,maxTemp:28,retain:'一般',desc:'允许太阳短波辐射进入，地面长波辐射部分逸出'},
-  'CO₂':{speed:0.6,maxTemp:38,retain:'很强',desc:'CO₂吸收地面长波辐射并向各方向重新辐射，增强保温效果'}
-};
+function s008Draw(){
+  // 绘制正常CO2曲线
+  const pts1=window._s008Normal.map((t,i)=>`${60+i*20},${290-(t-25)*16}`).join(' ');
+  const el1=document.getElementById('lineNormal');
+  if(el1)el1.setAttribute('points',pts1);
+  // 绘制加倍CO2曲线
+  const pts2=window._s008Double.map((t,i)=>`${60+i*20},${290-(t-25)*16}`).join(' ');
+  const el2=document.getElementById('lineDouble');
+  if(el2)el2.setAttribute('points',pts2);
+  const rt=document.getElementById('s008Result');
+  if(rt)rt.textContent=`正常CO₂升温3.2°C | CO₂加倍升温5.0°C | 加倍时保温效果明显更强`;
+}
 
-function s008Select(gas){
-  window._s008Cur=gas;
-  const info=document.getElementById('s008Info');
-  const d=_s008Data[gas];
-  if(info&&d) info.innerHTML=`<strong>${gas}</strong><br/>升温速度：${d.speed}°C/min<br/>最高温度：${d.maxTemp}°C<br/>保温效果：${d.retain}<br/>说明：${d.desc}<br/><br/>💡 <strong>温室效应原理</strong>：太阳短波辐射能穿过CO₂到达地面，地面长波辐射被CO₂吸收并向各方向重新辐射（其中一部分返回地面），使地面保温。`;
+function s008Select(type){
+  window._s008Cur=type;
+  const rt=document.getElementById('s008Result');
+  if(rt)rt.textContent=type==='double'?'⚠️ CO₂加倍：升温更快、最高温更高、降温更慢！':'正常CO₂浓度：升温较缓，保温效果一般';
 }
 
 function s008Rec(){
   window._s008R=window._s008R||[];
-  Object.keys(_s008Data).forEach(gas=>{
-    const d=_s008Data[gas];
-    window._s008R.push({gas:gas,speed:d.speed,maxTemp:d.maxTemp,retain:d.retain});
+  const n=window._s008Normal;
+  const d=window._s008Double;
+  window._s008R.push({
+    co2:'350ppm（正常）',
+    rise:(Math.max(...n)-n[0]).toFixed(1),
+    max:Math.max(...n).toFixed(1),
+    desc:'升温较缓'
+  });
+  window._s008R.push({
+    co2:'700ppm（加倍）',
+    rise:(Math.max(...d)-d[0]).toFixed(1),
+    max:Math.max(...d).toFixed(1),
+    desc:'升温显著'
   });
   s008Rdr();
 }
-
-function s008Rdr(){
-  const tb=document.getElementById('s008TBb');
-  if(!tb)return;
-  if(!window._s008R||window._s008R.length===0){
-    tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击气体成分按钮添加记录</td></tr>';
-    return;
-  }
-  tb.innerHTML=window._s008R.map(r=>`<tr><td>${r.gas}</td><td>${r.speed}</td><td>${r.maxTemp}</td><td>${r.retain}</td></tr>`).join('');
-}
-
-function s008Ana(){
-  const el=document.getElementById('s008Con');
-  if(el){
-    el.style.display='block';
-    el.innerHTML=`
+function s008Rdr(){const tb=document.getElementById('s008TBb');if(!tb)return;if(window._s008R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击"绘制温度曲线"添加数据</td></tr>';return;}tb.innerHTML=window._s008R.map(r=>`<tr><td>${r.co2}</td><td>${r.rise}°C</td><td>${r.max}°C</td><td>${r.desc}</td></tr>`).join('');}
+function s008Reset(){window._s008R=[];s008Rdr();}
+function s008Ana(){const el=document.getElementById('s008Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
-    <p>1. <strong>温室效应原理</strong>：CO₂等温室气体能透过太阳短波辐射（使地面升温），但吸收地面长波辐射并向各方向重新辐射（其中一部分返回地面），就像温室玻璃一样使地面保温。</p>
-    <p>2. <strong>人类活动的影响</strong>：自工业革命以来，人类大量燃烧化石燃料（煤、石油、天然气）、砍伐森林，导致大气中CO₂浓度从约280ppm飙升至超过420ppm，温室效应异常增强，引起全球气候变暖。</p>
-    <p>3. <strong>气候变暖的后果</strong>：冰川融化→海平面上升→沿海城市被淹；极端天气事件（高温、暴雨、干旱）增多；生态系统紊乱→生物多样性减少；农业生产格局改变等。</p>
-    <p>4. <strong>应对措施</strong>：①减缓（Mitigation）——减少温室气体排放（发展清洁能源、提高能源效率、碳捕集与封存）；②适应（Adaptation）——建设韧性城市、调整农业结构；③国际协作——《巴黎协定》目标：将全球升温控制在2°C以内，力争1.5°C。中国提出"碳达峰、碳中和"目标，体现负责任大国担当。</p>
-    <p style="margin-top:8px;color:#b45309;">📌 本实验控制照射强度和照射时间不变，只改变盒内气体成分，观察温室效应的增强现象，理解全球气候变暖的机制。</p>`;
-  }
-}
-
+    <p>1. <strong>温室效应原理</strong>：太阳短波辐射穿过大气层到达地面，地面吸热后向外发射长波辐射（红外）。CO₂、CH₄、N₂O等温室气体能强烈吸收长波辐射，并向各方向重新辐射（其中一部分返回地面），使地球表面温度升高，类似温室玻璃的保温作用。</p>
+    <p>2. <strong>CO₂浓度与温室效应强度</strong>：CO₂浓度越高，吸收长波辐射的能力越强，保温效果越显著。实验模拟显示：CO₂加倍时，升温幅度（5.0°C）明显高于正常浓度（3.2°C）。</p>
+    <p>3. <strong>全球气候变化后果</strong>：①冰川融化、海平面上升（威胁沿海城市）；②极端天气事件增多（高温、暴雨、干旱、台风）；③生态系统紊乱（物种灭绝、珊瑚白化）；④农业产量波动（高纬度可能增产，低纬度普遍减产）。</p>
+    <p>4. <strong>应对措施</strong>：①减排（发展清洁能源、提高能源效率、碳捕获与封存）；②增汇（植树造林、保护森林、恢复湿地）；③适应（建设韧性城市、调整农业结构）；④国际合作（《巴黎协定》：控制全球升温在2°C以内，争取1.5°C）。</p>
+    <p>5. <strong>中国承诺</strong>：CO₂排放力争2030年前达到峰值（碳达峰），2060年前实现净零排放（碳中和）。厦门作为低碳试点城市，正在大力发展海上风电、光伏发电、电动公交等低碳产业。</p>
+    <p style="margin-top:8px;color:#1d4ed;">📌 本实验控制照射强度和时间不变，只改变CO₂浓度，观察温室效应强度差异。CO₂加倍使地球升温幅度增加约56%，验证了温室气体排放控制的重要性。</p>`;}}
 function s008Clr(){window._s008R=[];s008Rdr();const el=document.getElementById('s008Con');if(el)el.style.display='none';}
 
 console.log('✅ s003-s008 模拟器已加载');
