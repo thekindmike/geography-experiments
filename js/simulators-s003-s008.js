@@ -315,7 +315,7 @@ function s004Rec(){
   window._s004R.push({country:d.name,type:d.type,young:d.young,old:d.old});
   s004Rdr();
 }
-function s004Rdr(){const tb=document.getElementById('s004TBb');if(!tb)return;if(window._s004R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加数据</td></tr>';return;}tb.innerHTML=window._s004R.map(r (=>`<tr><td>${r.country}</td><td>${r.type}</td><td>${r.young}%</td><td>${r.old}%</td></tr>`).join('');}
+function s004Rdr(){const tb=document.getElementById('s004TBb');if(!tb)return;if(window._s004R.length===0){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:8px;">点击国家按钮添加数据</td></tr>';return;}tb.innerHTML=window._s004R.map(r=>`<tr><td>${r.country}</td><td>${r.type}</td><td>${r.young}%</td><td>${r.old}%</td></tr>`).join('');}
 function s004Ana(){const el=document.getElementById('s004Con');if(el){el.style.display='block';el.innerHTML=`
     <p>✅ <strong>控制变量法分析结论：</strong></p>
     <p>1. <strong>人口金字塔三种类型</strong>：①扩张型（年轻型）——底部宽、顶部窄，少年儿童比重大（>40%），人口快速增长；②稳定型（成年型）——各年龄组比例较均匀，人口缓慢增长；③收缩型（老年型）——底部窄、顶部宽，老年人口比重大（>14%），人口负增长风险。</p>
