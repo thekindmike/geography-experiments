@@ -219,6 +219,11 @@
         <button onclick="exitDemoMode()">退出演示</button>
     </div>
 
+    <!-- 版权水印（防截图盗用） -->
+    <div id="copyrightWatermark" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9998; opacity:0.03; font-size:100px; font-weight:bold; color:#000; display:flex; justify-content:center; align-items:center; transform:rotate(-30deg); user-select:none;">
+        地理实验教学平台 © 2026
+    </div>
+
     <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
@@ -249,20 +254,55 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 地理实验教学平台 - 助力地理实验教学</p>
+                <p style="font-size:12px; margin-top:5px;">
+                    <a href="copyright.html" style="color:#6b7280; text-decoration:none;">版权所有</a> | 
+                    <a href="javascript:void(0)" onclick="document.getElementById('copyrightModal').style.display='flex'" style="color:#6b7280; text-decoration:underline; cursor:pointer;">查看版权声明</a>
+                </p>
+                <!-- 备案信息（如图案已备案，请取消注释并填写备案号） -->
+                <!--
+                <p style="font-size:12px; margin-top:5px; color:#6b7280;">
+                    网站备案号：<a href="https://beian.miit.gov.cn/" target="_blank" style="color:#2563eb;">粤ICP备XXXXXXXX号</a> | 
+                    公安备案号：公网安备 XXXXXXXXXXXXX号
+                </p>
+                -->
             </div>
         </div>
     </footer>
 
     <!-- 版权声明弹窗 -->
     <div id="copyrightModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:white; max-width:700px; max-height:80vh; overflow-y:auto; padding:30px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="background:white; max-width:800px; max-height:85vh; overflow-y:auto; padding:30px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
             <h2 style="color:#2563eb; margin-bottom:15px;">📄 版权声明 / Copyright Notice</h2>
             <div style="line-height:1.8; color:#374151; font-size:14px;">
-                <p><strong>1. 版权归属</strong><br>本网站（初高中地理实验教学平台）及其所有内容（包括但不限于代码、设计、文字、图片、音频、视频等）均由开发者独立创作，受《中华人民共和国著作权法》、《计算机软件保护条例》及国际版权公约保护。<br><br>
-                <strong>2. 权利保留</strong><br>未经书面授权，任何单位或个人不得以任何形式复制、转载、改编、传播、展示、发布、上传、下载、存储、镜像、建立链接或以其他方式使用本网站的任何内容。<br><br>
-                <strong>3. 侵权处理</strong><br>如发现侵权行为，开发者将依法追究侵权者的法律责任，包括但不限于民事诉讼、行政投诉及刑事举报。<br><br>
-                <strong>4. 开源协议</strong><br>本网站部分代码采用 MIT 开源协议，允许在保留版权声明的前提下自由使用、修改和分发。<br><br>
-                <strong>5. 联系我们</strong><br>如有合作需求或授权咨询，请联系：<a href="mailto:thekindmike@qq.com" style="color:#2563eb;">thekindmike@qq.com</a></p>
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">一、版权归属</h3>
+                <p>本网站（初高中地理实验教学平台）及其所有内容（包括但不限于代码、设计、文字、图片、音频、视频等）均由开发者独立创作，受《中华人民共和国著作权法》、《计算机软件保护条例》及国际版权公约保护。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">二、权利保留</h3>
+                <p>未经书面授权，任何单位或个人不得以任何形式复制、转载、改编、传播、展示、发布、上传、下载、存储、镜像、建立链接或以其他方式使用本网站的任何内容。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">三、侵权处理</h3>
+                <p>如发现侵权行为，开发者将依法追究侵权者的法律责任，包括但不限于民事诉讼、行政投诉及刑事举报。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">四、法律适用与争议解决</h3>
+                <p>1. 本版权声明受中华人民共和国法律管辖并据以解释。<br>
+                   2. 如因本版权声明或本网站内容引起任何争议，双方应友好协商解决；协商不成的，任何一方均可向开发者所在地有管辖权的人民法院提起诉讼。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">五、免责条款</h3>
+                <p>1. 本网站提供的信息仅供参考，开发者不对信息的准确性、完整性、及时性作出任何保证。<br>
+                   2. 使用者因使用本网站而导致的任何直接或间接损失，开发者不承担任何责任。<br>
+                   3. 本网站可能包含指向第三方网站的链接，开发者不对第三方网站的内容、隐私政策或活动负责。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">六、开源协议</h3>
+                <p>本网站部分代码采用 MIT 开源协议，允许在保留版权声明的前提下自由使用、修改和分发。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">七、举报渠道</h3>
+                <p>如发现任何侵犯本网站版权的行为，请通过以下渠道举报：<br>
+                   <strong>举报邮箱</strong>：thekindmike@qq.com<br>
+                   <strong>举报流程</strong>：请提供侵权证据（如截图、链接等），开发者将在收到举报后7个工作日内处理。</p>
+
+                <h3 style="color:#1f2937; font-size:16px; margin-top:20px;">八、联系我们</h3>
+                <p>如有合作需求或授权咨询，请联系：<a href="mailto:thekindmike@qq.com" style="color:#2563eb;">thekindmike@qq.com</a></p>
+
                 <hr style="margin:20px 0; border:none; border-top:1px solid #e5e7eb;">
                 <p style="font-size:12px; color:#6b7280;"><strong>Copyright &copy; 2026 地理实验教学平台. All rights reserved.</strong><br>
                 This website and its entire contents are protected by international copyright laws. Unauthorized reproduction or distribution of any content is strictly prohibited.</p>
