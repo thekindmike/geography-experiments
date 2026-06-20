@@ -3,6 +3,28 @@ let currentPage = 'home';
 let currentGrade = null;
 let isDemoMode = false;
 
+// ==================== 工具函数 ====================
+function getExperimentById(id) {
+    const all = [...EXPERIMENTS_DATA.junior, ...EXPERIMENTS_DATA.senior];
+    return all.find(e => e.id === id) || null;
+}
+
+function toggleSimDemoMode(id) {
+    isDemoMode = !isDemoMode;
+    const btn = document.getElementById('simDemoBtn');
+    if (btn) {
+        btn.textContent = isDemoMode ? '🖥️ 退出演示模式' : '🖥️ 教师演示模式';
+        btn.classList.toggle('btn-primary', isDemoMode);
+        btn.classList.toggle('btn-outline', !isDemoMode);
+    }
+    const container = document.getElementById('simulatorContainer');
+    if (container) {
+        container.classList.toggle('demo-mode', isDemoMode);
+    }
+    // 重新渲染模拟器以应用演示模式
+    if (id) renderSimulator(id);
+}
+
 // ==================== 页面路由 ====================
 function showPage(page, params = {}) {
     // 隐藏所有页面
