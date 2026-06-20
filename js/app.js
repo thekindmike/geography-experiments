@@ -40,6 +40,26 @@ window.exitDemoMode = function() {
     }
 };
 
+// 进入教师演示模式（从实验详情页点击"教师演示模式"按钮触发）
+window.enterDemoMode = function(id) {
+    isDemoMode = true;
+    // 跳转到模拟器页面并自动开启演示模式
+    showPage('simulator', { id: id });
+    // 延迟设置演示模式状态（等模拟器渲染完成后）
+    setTimeout(function() {
+        const container = document.getElementById('simulatorContainer');
+        if (container) container.classList.add('demo-mode');
+        const bar = document.getElementById('demoModeBar');
+        if (bar) bar.style.display = 'flex';
+        const btn = document.getElementById('simDemoBtn');
+        if (btn) {
+            btn.textContent = '🖥️ 退出演示模式';
+            btn.classList.add('btn-primary');
+            btn.classList.remove('btn-outline');
+        }
+    }, 300);
+};
+
 // ==================== 页面路由 ====================
 function showPage(page, params = {}) {
     // 隐藏所有页面
@@ -252,10 +272,13 @@ function renderExperimentDetail(id) {
         <div class="detail-quote">${exp.observation}</div>
     </div>
 
-    <!-- 实验结论 -->
-    <div class="detail-section">
+    <!-- 实验结论（默认隐藏，点击后显示） -->
+    <div class="detail-section" id="detailConclusionSection">
         <h2><span class="section-icon">💡</span> 实验结论与拓展</h2>
-        <div class="detail-quote">${exp.conclusion}</div>
+        <div id="detailConclusionContent" style="display:none;">
+            <div class="detail-quote">${exp.conclusion}</div>
+        </div>
+        <button class="btn btn-primary btn-sm" id="detailConclusionBtn" onclick="document.getElementById('detailConclusionContent').style.display='block';document.getElementById('detailConclusionBtn').style.display='none';" style="margin-top:10px;">🔓 点击查看实验结论</button>
     </div>`;
 
     // 教学提示
@@ -391,6 +414,18 @@ function renderSimulator(id) {
     `;
 
     document.getElementById('simulatorContainer').innerHTML = html;
+
+    // 如果从 enterDemoMode 进入，初始化演示模式 UI
+    if (isDemoMode) {
+        const container = document.getElementById('simulatorContainer');
+        if (container) container.classList.add('demo-mode');
+        const btn = document.getElementById('simDemoBtn');
+        if (btn) {
+            btn.textContent = '🖥️ 退出演示模式';
+            btn.classList.add('btn-primary');
+            btn.classList.remove('btn-outline');
+        }
+    }
 
     // 根据实验类型加载对应模拟器
     switch (id) {
