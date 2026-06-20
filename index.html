@@ -253,17 +253,49 @@
         </div>
     </footer>
 
+    <!-- 版权声明弹窗 -->
+    <div id="copyrightModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:white; max-width:700px; max-height:80vh; overflow-y:auto; padding:30px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <h2 style="color:#2563eb; margin-bottom:15px;">📄 版权声明 / Copyright Notice</h2>
+            <div style="line-height:1.8; color:#374151; font-size:14px;">
+                <p><strong>1. 版权归属</strong><br>本网站（初高中地理实验教学平台）及其所有内容（包括但不限于代码、设计、文字、图片、音频、视频等）均由开发者独立创作，受《中华人民共和国著作权法》、《计算机软件保护条例》及国际版权公约保护。<br><br>
+                <strong>2. 权利保留</strong><br>未经书面授权，任何单位或个人不得以任何形式复制、转载、改编、传播、展示、发布、上传、下载、存储、镜像、建立链接或以其他方式使用本网站的任何内容。<br><br>
+                <strong>3. 侵权处理</strong><br>如发现侵权行为，开发者将依法追究侵权者的法律责任，包括但不限于民事诉讼、行政投诉及刑事举报。<br><br>
+                <strong>4. 开源协议</strong><br>本网站部分代码采用 MIT 开源协议，允许在保留版权声明的前提下自由使用、修改和分发。<br><br>
+                <strong>5. 联系我们</strong><br>如有合作需求或授权咨询，请联系：<a href="mailto:thekindmike@qq.com" style="color:#2563eb;">thekindmike@qq.com</a></p>
+                <hr style="margin:20px 0; border:none; border-top:1px solid #e5e7eb;">
+                <p style="font-size:12px; color:#6b7280;"><strong>Copyright &copy; 2026 地理实验教学平台. All rights reserved.</strong><br>
+                This website and its entire contents are protected by international copyright laws. Unauthorized reproduction or distribution of any content is strictly prohibited.</p>
+            </div>
+            <button onclick="document.getElementById('copyrightModal').style.display='none'" style="margin-top:20px; padding:10px 30px; background:#2563eb; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px;">关闭 / Close</button>
+        </div>
+    </div>
+
+    <!-- 在页脚添加版权声明链接 -->
+    <script>
+    // 在页脚底部添加版权声明链接
+    document.addEventListener('DOMContentLoaded', function() {
+        var footerBottom = document.querySelector('.footer-bottom');
+        if (footerBottom) {
+            var link = document.createElement('p');
+            link.innerHTML = '<a href="javascript:void(0)" onclick="document.getElementById(\'copyrightModal\').style.display=\'flex\'" style="color:#6b7280; font-size:13px; text-decoration:underline; cursor:pointer;">查看完整版权声明 / View Copyright Notice</a>';
+            footerBottom.appendChild(link);
+        }
+    });
+    </script>
+
     <!-- 返回顶部按钮 -->
     <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
     </button>
 
-    <script src="js/experiments-data.js"></script>
-    <script src="js/app.js"></script>
+    <!-- 混淆后的 JS 文件（版权保护版） -->
+    <script src="js/obfuscated/experiments-data.js"></script>
+    <script src="js/obfuscated/app.js"></script>
     <!-- 全部18个实验互动模拟器 V2 (控制变量法升级版) -->
-    <script src="js/simulators-controlled.js"></script>
-    <script src="js/simulators-j004-j008.js"></script>
-    <script src="js/simulators-s001-s002.js"></script>
-    <script src="js/simulators-s003-s008.js"></script>
+    <script src="js/obfuscated/simulators-controlled.js"></script>
+    <script src="js/obfuscated/simulators-j004-j008.js"></script>
+    <script src="js/obfuscated/simulators-s001-s002.js"></script>
+    <script src="js/obfuscated/simulators-s003-s008.js"></script>
 </body>
 </html>

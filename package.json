@@ -1,0 +1,23 @@
+{
+  "name": "geography-experiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fix-types.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekindmike/geography-experiments.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thekindmike/geography-experiments/issues"
+  },
+  "homepage": "https://github.com/thekindmike/geography-experiments#readme",
+  "devDependencies": {
+    "javascript-obfuscator": "^5.4.3"
+  }
+}
